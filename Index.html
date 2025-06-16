@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Elite Business Club | Profit Sharing</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0b3d91, #0f7bdb);
+    color: #1a1a1a;
+    padding: 2rem;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    background: #f1faee;
+    border-radius: 12px;
+    padding: 0.5rem 1rem;
+    box-shadow: 0 0 15px rgba(15, 123, 219, 0.5);
+    width: 100%;
+    max-width: 1000px;
+  }
+  header img {
+    height: 60px;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #0f7bdbaa;
+  }
+  header h1 {
+    font-weight: 900;
+    color: #0b3d91;
+    margin: 0;
+    font-size: 1.8rem;
+    flex-grow: 1;
+    text-shadow: 1px 1px 2px #0960c7;
+  }
+  #total-contribution {
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 700;
+    background: #f1faee;
+    color: #0b3d91;
+    border-radius: 8px;
+    padding: 0.75rem;
+    margin: 1rem auto 1.5rem auto;
+    max-width: 1000px;
+    box-shadow: 0 0 10px #0f7bdb88;
+  }
+  .container {
+    background: #f1faee;
+    color: #1d3557;
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 1000px;
+    width: 100%;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+  }
+  label {
+    font-weight: 600;
+    color: #0b3d91;
+  }
+  input[type='number'],
+  input[type='text'] {
+    width: 100%;
+    padding: 0.5rem;
+    margin: 0.4rem 0 1rem 0;
+    border-radius: 6px;
+    border: 1.5px solid #0b3d91;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #0b3d91;
+    transition: border-color 0.3s ease;
+  }
+  input[type='number']:focus,
+  input[type='text']:focus {
+    outline: none;
+    border-color: #0f7bdb;
+    box-shadow: 0 0 6px #0f7bdbaa;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.25rem;
+    box-shadow: 0 0 12px #00000055;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  table,
+  th,
+  td {
+    border: 1px solid #c8d6e5;
+  }
+  th,
+  td {
+    padding: 0.8rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #0b3d91;
+    background: white;
+  }
+  th {
+    background-color: #0f7bdb;
+    color: white;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+  .highlight {
+    background-color: #a8dadc;
+    font-weight: 700;
+  }
+  .btn {
+    background-color: #0b3d91;
+    color: white;
+    padding: 0.75rem 1.8rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease;
+    user-select: none;
+  }
+  .btn:hover {
+    background-color: #f5700a;
+  }
+  .member-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 12px;
+    border: 2px solid #0b3d91;
+    box-shadow: 0 0 6px #0f7bdbaa;
+  }
+  .member-info {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
+  #timestamp {
+    margin-top: 1rem;
+    font-style: italic;
+    font-weight: 600;
+    color: #0b3d91;
+    text-align: right;
+  }
+  @media (max-width: 640px) {
+    header {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    #total-contribution {
+      font-size: 1.2rem;
+    }
+    .btn {
+      width: 100%;
+      margin-top: 1rem;
+    }
+    table,
+    th,
+    td {
+      font-size: 0.85rem;
+    }
+  }
+</style>
+</head>
+<body>
+<header>
+  <img src="https://i.imgur.com/2JbbSk5.png" alt="Elite Business Club Logo" />
+  <h1>Elite Business Club Profit Sharing</h1>
+</header>
+
+<div id="total-contribution"></div>
+<div class="container">
+  <label for="profit">Total Profit Made by the Club (UGX):</label>
+  <input type="number" id="profit" placeholder="Enter total profit..." min="0" />
+
+  <label for="interest"
+    >Add Extra Interest (UGX) to Specific Members (comma-separated, e.g. 2:10000,5:15000):</label
+  >
+  <input type="text" id="interest" placeholder="MemberIndex:Interest (1-based index)" />
+
+  <button class="btn" onclick="calculateShares()">Calculate Shares</button>
+
+  <table id="results">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Member</th>
+        <th>Contribution (UGX)</th>
+        <th>Contribution %</th>
+        <th>Profit Share (UGX)</th>
+        <th>Extra Interest (UGX)</th>
+        <th>Total (UGX)</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <div id="timestamp"></div>
+</div>
+
+<script>
+ 
+  const members = [
+    { name: "Alice", contribution: 30000, photo: "https://via.placeholder.com/40?text=A" },
+    { name: "Brian", contribution: 25000, photo: "https://via.placeholder.com/40?text=B" },
+    { name: "Catherine", contribution: 35000, photo: "https://via.placeholder.com/40?text=C" },
+    { name: "David", contribution: 20000, photo: "https://via.placeholder.com/40?text=D" },
+    { name: "Esther", contribution: 40000, photo: "https://via.placeholder.com/40?text=E" },
+    { name: "Frank", contribution: 15000, photo: "https://via.placeholder.com/40?text=F" },
+    { name: "Grace", contribution: 25000, photo: "https://via.placeholder.com/40?text=G" },
+    { name: "Henry", contribution: 30000, photo: "https://via.placeholder.com/40?text=H" },
+    { name: "Irene", contribution: 28000, photo: "https://via.placeholder.com/40?text=I" },
+    { name: "John", contribution: 22000, photo: "https://via.placeholder.com/40?text=J" },
+    { name: "Mary", contribution: 24000, photo: "https://via.placeholder.com/40?text=J" },
+    { name: "Eliab", contribution: 20000, photo: "https://via.placeholder.com/40?text=J" },
+  ];
+
+  function calculateShares() {
+    const profitInput = document.getElementById("profit");
+    const interestInput = document.getElementById("interest");
+    const profit = parseFloat(profitInput.value);
+    if (isNaN(profit) || profit <= 0) {
+      alert("Please enter a valid positive total profit.");
+      return;
+    }
+
+    let extraInterestMap = {};
+    if (interestInput.value.trim()) {
+      let pairs = interestInput.value.split(",");
+      for (let pair of pairs) {
+        let [idxStr, amountStr] = pair.split(":");
+        let idx = parseInt(idxStr.trim()) - 1; 
+        let amount = parseFloat(amountStr.trim());
+        if (
+          idx >= 0 &&
+          idx < members.length &&
+          !isNaN(amount) &&
+          amount >= 0
+        ) {
+          extraInterestMap[idx] = amount;
+        } else {
+          alert(
+            `Invalid extra interest format or index out of range: "${pair}". Please check input.`
+          );
+          return;
+        }
+      }
+    }
+
+    const tbody = document.querySelector("#results tbody");
+    tbody.innerHTML = "";
+
+  
+    const totalContribution = members.reduce(
+      (sum, m) => sum + m.contribution,
+      0
+    );
+
+    
+    const totalExtraInterest = Object.values(extraInterestMap).reduce(
+      (a, b) => a + b,
+      0
+    );
+
+    if (totalExtraInterest > profit) {
+      alert(
+        "Total extra interest exceeds the total profit. Please reduce extra interest."
+      );
+      return;
+    }
+
+  
+    const baseProfit = profit - totalExtraInterest;
+
+    
+    let sumProfitShares = 0;
+    let results = members.map((member, i) => {
+      let contributionPercent = (member.contribution / totalContribution) * 100;
+      let baseShare = (member.contribution / totalContribution) * baseProfit;
+      let extra = extraInterestMap[i] || 0;
+      let total = baseShare + extra;
+
+      sumProfitShares += total;
+      return {
+        ...member,
+        contributionPercent,
+        baseShare,
+        extra,
+        total,
+      };
+    });
+
+
+    const diff = profit - sumProfitShares;
+    if (Math.abs(diff) > 0.01) {
+      
+      let last = results[results.length - 1];
+      last.total += diff;
+      last.baseShare += diff;
+    }
+
+   
+    const totalDiv = document.getElementById("total-contribution");
+    totalDiv.textContent =
+      "Total Contributions by All Members: UGX " + totalContribution.toLocaleString();
+
+  
+    for (let i = 0; i < results.length; i++) {
+      const r = results[i];
+      const tr = document.createElement("tr");
+
+      tr.innerHTML = `
+        <td>${i + 1}</td>
+        <td class="member-info">
+          <img class="member-img" src="${r.photo}" alt="${r.name}" />
+          <span>${r.name}</span>
+        </td>
+        <td>UGX ${r.contribution.toLocaleString()}</td>
+        <td>${r.contributionPercent.toFixed(2)}%</td>
+        <td>UGX ${r.baseShare.toFixed(2).toLocaleString()}</td>
+        <td>UGX ${r.extra.toLocaleString()}</td>
+        <td class="highlight">UGX ${r.total.toFixed(2).toLocaleString()}</td>
+      `;
+      tbody.appendChild(tr);
+    }
+
+    
+    const timestampDiv = document.getElementById("timestamp");
+    const now = new Date();
+    timestampDiv.textContent =
+      "Last calculation done on: " +
+      now.toLocaleDateString() +
+      " " +
+      now.toLocaleTimeString();
+  }
+</script>
+</body>
+</html>
