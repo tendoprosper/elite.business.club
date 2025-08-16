@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elite Club Admin Dashboard</title>
+<style>
+:root {
+  --bg-dark:#0b3d91;
+  --bg-light:#f5f5f5;
+  --text-dark:#fff;
+  --text-light:#000;
+  --card-dark:rgba(0,0,0,0.75);
+  --card-light:rgba(255,255,255,0.95);
+}
+body{font-family:Arial,sans-serif;margin:0;padding:0;background:var(--bg-dark);color:var(--text-dark);transition:0.3s;}
+body.dark{background:linear-gradient(135deg,var(--bg-dark),#0f7bbd);color:var(--text-dark);}
+body.light{background:var(--bg-light);color:var(--text-light);}
+.container{background:var(--card-dark);padding:20px;border-radius:12px;width:95%;max-width:1200px;margin:20px auto;display:none;transition:0.3s;}
+body.light .container{background:var(--card-light);}
+input,select,button{width:100%;padding:10px;margin:5px 0;border:none;border-radius:6px;box-sizing:border-box;}
+button{background:#f7b733;color:black;font-weight:bold;cursor:pointer;transition:0.3s;}
+button:hover{background:#ffcc00;}
+table{width:100%;border-collapse:collapse;margin-top:15px;font-size:14px;}
+th,td{border:1px solid #fff;padding:8px;text-align:center;}
+th{background:rgba(255,255,255,0.2);}
+body.light th,body.light td{border:1px solid #000;}
+#securityOverlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;}
+#securityOverlay input{width:250px;padding:10px;border-radius:6px;border:none;margin-bottom:10px; text-align:center;}
+#keyMsg{color:#ffcc00;margin-top:10px;text-align:center;}
+.section{margin-top:30px;border-top:1px solid #fff;padding-top:20px;}
+body.light .section{border-top:1px solid #000;}
+.member-cards{display:flex;flex-wrap:wrap;gap:15px;margin-top:20px;}
+.member-card{background:rgba(255,255,255,0.1);padding:15px;border-radius:10px;flex:1 1 140px;cursor:pointer;transition:0.3s; min-width:120px;text-align:center;}
+.member-card:hover{background:rgba(255,255,255,0.3);}
+body.light .member-card{background:rgba(0,0,0,0.05);}
+.msg{margin-top:10px;font-size:14px;color:#ffcc00;text-align:center;}
+@media(max-width:1024px){
+  table{font-size:13px;}
+}
+@media(max-width:768px){
+  .member-cards{flex-direction:column;align-items:center;}
+  input,select,button{width:95%;}
+  table{font-size:12px;}
+  .container{padding:15px;}
+}
+@media(max-width:480px){
+  .member-card{flex:1 1 100%; font-size:14px;}
+  th,td{padding:6px;}
+}
+</style>
+</head>
+<body class="dark">
+
+<div id="securityOverlay">
+  <h2 style="color:white;margin-bottom:20px;">Enter Security Key</h2>
+  <input type="password" id="securityKeyInput" placeholder="Enter Key">
+  <button id="keyBtn">Enter</button>
+  <p id="keyMsg"></p>
+</div>
+
+<div class="container" id="adminContainer">
+  <div><button onclick="toggleTheme()">Toggle Dark/Light Theme</button></div>
+  <h2>Elite Club Dashboard</h2>
+
+  <!-- Members -->
+  <div class="section">
+    <h3>Manage Members</h3>
+    <input type="text" id="newMemberEmail" placeholder="Member Email">
+    <button id="addMemberBtn">Add Member</button>
+    <h4>Existing Members</h4>
+    <table id="membersTable">
+      <thead><tr><th>Email</th><th>Remove</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- Add Savings -->
+  <div class="section">
+    <h3>Add Savings</h3>
+    <select id="memberSelect"></select>
+    <input type="number" id="savingAmount" placeholder="Amount">
+    <input type="date" id="savingDate">
+    <button id="addSavingBtn">Add Saving</button>
+    <p class="msg" id="savingMsg"></p>
+  </div>
+
+  <!-- Savings Table -->
+  <div class="section">
+    <h3>Savings Records</h3>
+    <table id="savingsTable">
+      <thead><tr><th>Member</th><th>Amount</th><th>Date</th></tr></thead>
+      <tbody></tbody>
+      <tfoot>
+        <tr><th>Total per Member</th><th colspan="2" id="totalsPerMember"></th></tr>
+        <tr><th>Grand Total</th><th colspan="2" id="totalSavings"></th></tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <!-- Outflows -->
+  <div class="section">
+    <h3>Cash Outflow</h3>
+    <input type="text" id="outflowDesc" placeholder="Description">
+    <input type="number" id="outflowAmount" placeholder="Amount">
+    <input type="date" id="outflowDate">
+    <button id="addOutflowBtn">Add Outflow</button>
+    <p class="msg" id="outflowMsg"></p>
+    <table id="outflowTable">
+      <thead><tr><th>Description</th><th>Amount</th><th>Date</th></tr></thead>
+      <tbody></tbody>
+      <tfoot>
+        <tr><th>Total Outflows</th><th colspan="2" id="totalOutflows"></th></tr>
+        <tr><th>Balance</th><th colspan="2" id="balance"></th></tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <!-- Member Cards -->
+  <div class="section">
+    <h3>Member Overview</h3>
+    <div class="member-cards" id="memberCards"></div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, onSnapshot, addDoc, deleteDoc, doc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey:"AIzaSyB8y4y7bMIteIT029Vzna3rgzcDmSjUAwk",
+  authDomain:"elitesign-in.firebaseapp.com",
+  projectId:"elitesign-in",
+  storageBucket:"elitesign-in.firebasestorage.app",
+  messagingSenderId:"404062937521",
+  appId:"1:404062937521:web:4460e2ccc011dd6afa5d90",
+  measurementId:"G-7V5CND9FG4"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Security
+const SECURITY_KEY = "elite2025";
+const overlay=document.getElementById("securityOverlay");
+const container=document.getElementById("adminContainer");
+const keyInput=document.getElementById("securityKeyInput");
+const keyBtn=document.getElementById("keyBtn");
+const keyMsg=document.getElementById("keyMsg");
+container.style.display="none";
+
+keyBtn.addEventListener("click",()=>{
+  if(keyInput.value===SECURITY_KEY){
+    overlay.style.display="none"; container.style.display="block";
+    loadAll();
+  }else keyMsg.innerText="❌ Wrong key!";
+});
+keyInput.addEventListener("keyup",e=>{if(e.key==="Enter")keyBtn.click();});
+
+// Theme toggle
+window.toggleTheme=()=>{ document.body.classList.toggle("dark"); document.body.classList.toggle("light"); };
+
+// DOM elements
+const memberTableBody=document.querySelector("#membersTable tbody");
+const memberSelect=document.getElementById("memberSelect");
+const memberCardsDiv=document.getElementById("memberCards");
+const savingsTbody=document.querySelector("#savingsTable tbody");
+const outflowTbody=document.querySelector("#outflowTable tbody");
+
+// --- Members ---
+async function loadMembers(){
+  const usersSnap = await getDocs(collection(db,"users"));
+  memberTableBody.innerHTML=""; memberSelect.innerHTML="<option value=''>Select Member</option>";
+  for(const docUser of usersSnap.docs){
+    const email=docUser.data().email;
+    const uid=docUser.id;
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td>${email}</td><td><button onclick="removeMember('${uid}')">Remove</button></td>`;
+    memberTableBody.appendChild(tr);
+    const opt=document.createElement("option"); opt.value=uid; opt.textContent=email;
+    memberSelect.appendChild(opt);
+  }
+  loadMemberCards();
+}
+
+document.getElementById("addMemberBtn").addEventListener("click",async()=>{
+  const email=document.getElementById("newMemberEmail").value.trim();
+  if(!email)return alert("Enter email");
+  await addDoc(collection(db,"users"),{email}); document.getElementById("newMemberEmail").value="";
+});
+
+// Remove member
+window.removeMember=async(uid)=>{
+  const savingsSnap = await getDocs(collection(db,"savings"));
+  for(const docSave of savingsSnap.docs){
+    const data=docSave.data();
+    if(data.userId===uid || !data.userId){ await deleteDoc(doc(db,"savings",docSave.id)); }
+  }
+  await deleteDoc(doc(db,"users",uid));
+}
+
+// --- Add Savings ---
+document.getElementById("addSavingBtn").addEventListener("click",async()=>{
+  const userId=memberSelect.value;
+  const amount=parseFloat(document.getElementById("savingAmount").value);
+  const date=document.getElementById("savingDate").value;
+  if(!userId||!amount||!date){document.getElementById("savingMsg").innerText="❌ Fill all fields"; return;}
+  await addDoc(collection(db,"savings"),{userId,amount,date});
+  document.getElementById("savingAmount").value=""; document.getElementById("savingDate").value="";
+  document.getElementById("savingMsg").innerText="✅ Saving added!";
+});
+
+// --- Outflows ---
+document.getElementById("addOutflowBtn").addEventListener("click",async()=>{
+  const desc=document.getElementById("outflowDesc").value;
+  const amount=parseFloat(document.getElementById("outflowAmount").value);
+  const date=document.getElementById("outflowDate").value;
+  if(!desc||!amount||!date){document.getElementById("outflowMsg").innerText="❌ Fill all fields"; return;}
+  await addDoc(collection(db,"outflows"),{description:desc,amount,date});
+  document.getElementById("outflowMsg").innerText="✅ Outflow added!";
+  document.getElementById("outflowDesc").value=""; document.getElementById("outflowAmount").value=""; document.getElementById("outflowDate").value="";
+});
+
+// --- Load Savings & Member Cards ---
+async function loadSavingsRealtime(){
+  const totalsPerMemberEl=document.getElementById("totalsPerMember");
+  const totalSavingsEl=document.getElementById("totalSavings");
+
+  const usersSnap = await getDocs(collection(db,"users"));
+  const usersMap={}; usersSnap.forEach(doc=>usersMap[doc.id]=doc.data().email);
+
+  onSnapshot(collection(db,"savings"),snap=>{
+    savingsTbody.innerHTML=""; let memberTotals={}; let grandTotal=0;
+
+    snap.forEach(docSnap=>{
+      const data=docSnap.data();
+      if(usersMap[data.userId]){
+        const email=usersMap[data.userId];
+        const tr=document.createElement("tr");
+        tr.innerHTML=`<td>${email}</td><td>${data.amount}</td><td>${data.date}</td>`;
+        savingsTbody.appendChild(tr);
+        memberTotals[email]=(memberTotals[email]||0)+parseFloat(data.amount);
+      }
+    });
+
+    grandTotal=Object.values(memberTotals).reduce((acc,val)=>acc+val,0);
+
+    let totalsText=""; for(const email in memberTotals) totalsText+=`${email}: ${memberTotals[email]} | `;
+    totalsPerMemberEl.innerText=totalsText.slice(0,-3);
+    totalSavingsEl.innerText=grandTotal;
+
+    loadMemberCards(memberTotals);
+    updateBalanceRealtime(grandTotal);
+  });
+}
+
+async function loadMemberCards(memberTotals={}){
+  memberCardsDiv.innerHTML="";
+  const usersSnap=await getDocs(collection(db,"users"));
+  for(const docUser of usersSnap.docs){
+    const email=docUser.data().email;
+    const total=memberTotals[email]||0;
+    const card=document.createElement("div"); card.className="member-card";
+    card.innerHTML=`<strong>${email}</strong><br>Total Savings: ${total}`;
+    card.addEventListener("click",()=>{alert(`${email} Total Savings: ${total}`);});
+    memberCardsDiv.appendChild(card);
+  }
+}
+
+// --- Outflows ---
+function loadOutflowsRealtime(){
+  onSnapshot(collection(db,"outflows"),snap=>{
+    outflowTbody.innerHTML=""; let totalOutflows=0;
+    snap.forEach(doc=>{
+      const data=doc.data();
+      const tr=document.createElement("tr");
+      tr.innerHTML=`<td>${data.description}</td><td>${data.amount}</td><td>${data.date}</td>`;
+      outflowTbody.appendChild(tr);
+      totalOutflows+=data.amount;
+    });
+    document.getElementById("totalOutflows").innerText=totalOutflows;
+    const totalSavings=parseFloat(document.getElementById("totalSavings").innerText)||0;
+    document.getElementById("balance").innerText=totalSavings-totalOutflows;
+  });
+}
+
+function updateBalanceRealtime(totalSavings){
+  const totalOutflows=parseFloat(document.getElementById("totalOutflows").innerText)||0;
+  document.getElementById("balance").innerText=totalSavings-totalOutflows;
+}
+
+// --- Load all ---
+async function loadAll(){
+  await loadMembers();
+  await loadSavingsRealtime();
+  await loadOutflowsRealtime();
+}
+
+// --- Auto-refresh every 5 seconds ---
+setInterval(loadAll,5000);
+
+</script>
+</body>
+</html>
