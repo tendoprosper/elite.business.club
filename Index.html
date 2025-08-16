@@ -1,351 +1,270 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Elite Business Club | Profit Sharing</title>
-<style>
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #0b3d91, #0f7bdb);
-    color: #1a1a1a;
-    padding: 2rem;
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-    background: #f1faee;
-    border-radius: 12px;
-    padding: 0.5rem 1rem;
-    box-shadow: 0 0 15px rgba(15, 123, 219, 0.5);
-    width: 100%;
-    max-width: 1000px;
-  }
-  header img {
-    height: 60px;
-    border-radius: 50%;
-    box-shadow: 0 0 8px #0f7bdbaa;
-  }
-  header h1 {
-    font-weight: 900;
-    color: #0b3d91;
-    margin: 0;
-    font-size: 1.8rem;
-    flex-grow: 1;
-    text-shadow: 1px 1px 2px #0960c7;
-  }
-  #total-contribution {
-    text-align: center;
-    font-size: 1.4rem;
-    font-weight: 700;
-    background: #f1faee;
-    color: #0b3d91;
-    border-radius: 8px;
-    padding: 0.75rem;
-    margin: 1rem auto 1.5rem auto;
-    max-width: 1000px;
-    box-shadow: 0 0 10px #0f7bdb88;
-  }
-  .container {
-    background: #f1faee;
-    color: #1d3557;
-    border-radius: 12px;
-    padding: 2rem;
-    max-width: 1000px;
-    width: 100%;
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
-  }
-  label {
-    font-weight: 600;
-    color: #0b3d91;
-  }
-  input[type='number'],
-  input[type='text'] {
-    width: 100%;
-    padding: 0.5rem;
-    margin: 0.4rem 0 1rem 0;
-    border-radius: 6px;
-    border: 1.5px solid #0b3d91;
-    font-weight: 600;
-    font-size: 1rem;
-    color: #0b3d91;
-    transition: border-color 0.3s ease;
-  }
-  input[type='number']:focus,
-  input[type='text']:focus {
-    outline: none;
-    border-color: #0f7bdb;
-    box-shadow: 0 0 6px #0f7bdbaa;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1.25rem;
-    box-shadow: 0 0 12px #00000055;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  table,
-  th,
-  td {
-    border: 1px solid #c8d6e5;
-  }
-  th,
-  td {
-    padding: 0.8rem;
-    text-align: center;
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: #0b3d91;
-    background: white;
-  }
-  th {
-    background-color: #0f7bdb;
-    color: white;
-    font-size: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-  }
-  .highlight {
-    background-color: #a8dadc;
-    font-weight: 700;
-  }
-  .btn {
-    background-color: #0b3d91;
-    color: white;
-    padding: 0.75rem 1.8rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 1rem;
-    margin-top: 1rem;
-    transition: background-color 0.3s ease;
-    user-select: none;
-  }
-  .btn:hover {
-    background-color: #f5700a;
-  }
-  .member-img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 12px;
-    border: 2px solid #0b3d91;
-    box-shadow: 0 0 6px #0f7bdbaa;
-  }
-  .member-info {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 0.5rem;
-  }
-  #timestamp {
-    margin-top: 1rem;
-    font-style: italic;
-    font-weight: 600;
-    color: #0b3d91;
-    text-align: right;
-  }
-  @media (max-width: 640px) {
-    header {
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-    #total-contribution {
-      font-size: 1.2rem;
-    }
-    .btn {
-      width: 100%;
-      margin-top: 1rem;
-    }
-    table,
-    th,
-    td {
-      font-size: 0.85rem;
-    }
-  }
-</style>
-</head>
-<body>
-<header>
-  <img src="https://i.imgur.com/2JbbSk5.png" alt="Elite Business Club Logo" />
-  <h1>Elite Business Club Profit Sharing</h1>
-</header>
-
-<div id="total-contribution"></div>
-<div class="container">
-  <label for="profit">Total Profit Made by the Club (UGX):</label>
-  <input type="number" id="profit" placeholder="Enter total profit..." min="0" />
-
-  <label for="interest"
-    >Add Extra Interest (UGX) to Specific Members (comma-separated, e.g. 2:10000,5:15000):</label
-  >
-  <input type="text" id="interest" placeholder="MemberIndex:Interest (1-based index)" />
-
-  <button class="btn" onclick="calculateShares()">Calculate Shares</button>
-
-  <table id="results">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Member</th>
-        <th>Contribution (UGX)</th>
-        <th>Contribution %</th>
-        <th>Profit Share (UGX)</th>
-        <th>Extra Interest (UGX)</th>
-        <th>Total (UGX)</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-
-  <div id="timestamp"></div>
-</div>
-
-<script>
- 
-  const members = [
-    { name: "Alice", contribution: 30000, photo: "https://via.placeholder.com/40?text=A" },
-    { name: "Brian", contribution: 25000, photo: "https://via.placeholder.com/40?text=B" },
-    { name: "Catherine", contribution: 35000, photo: "https://via.placeholder.com/40?text=C" },
-    { name: "David", contribution: 20000, photo: "https://via.placeholder.com/40?text=D" },
-    { name: "Esther", contribution: 40000, photo: "https://via.placeholder.com/40?text=E" },
-    { name: "Frank", contribution: 15000, photo: "https://via.placeholder.com/40?text=F" },
-    { name: "Grace", contribution: 25000, photo: "https://via.placeholder.com/40?text=G" },
-    { name: "Henry", contribution: 30000, photo: "https://via.placeholder.com/40?text=H" },
-    { name: "Irene", contribution: 28000, photo: "https://via.placeholder.com/40?text=I" },
-    { name: "John", contribution: 22000, photo: "https://via.placeholder.com/40?text=J" },
-    { name: "Mary", contribution: 24000, photo: "https://via.placeholder.com/40?text=J" },
-    { name: "Eliab", contribution: 20000, photo: "https://via.placeholder.com/40?text=J" },
-  ];
-
-  function calculateShares() {
-    const profitInput = document.getElementById("profit");
-    const interestInput = document.getElementById("interest");
-    const profit = parseFloat(profitInput.value);
-    if (isNaN(profit) || profit <= 0) {
-      alert("Please enter a valid positive total profit.");
-      return;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Elite Savings Club</title>
+  <style>
+    :root {
+      --bg: #a09e9ed1;
+      --accent: #ff0404;
+      --text: #222;
+      --dark: #000000;
+      --shadow: rgba(0, 0, 0, 0.1);
     }
 
-    let extraInterestMap = {};
-    if (interestInput.value.trim()) {
-      let pairs = interestInput.value.split(",");
-      for (let pair of pairs) {
-        let [idxStr, amountStr] = pair.split(":");
-        let idx = parseInt(idxStr.trim()) - 1; 
-        let amount = parseFloat(amountStr.trim());
-        if (
-          idx >= 0 &&
-          idx < members.length &&
-          !isNaN(amount) &&
-          amount >= 0
-        ) {
-          extraInterestMap[idx] = amount;
-        } else {
-          alert(
-            `Invalid extra interest format or index out of range: "${pair}". Please check input.`
-          );
-          return;
-        }
-      }
-    }
-
-    const tbody = document.querySelector("#results tbody");
-    tbody.innerHTML = "";
-
-  
-    const totalContribution = members.reduce(
-      (sum, m) => sum + m.contribution,
-      0
-    );
-
-    
-    const totalExtraInterest = Object.values(extraInterestMap).reduce(
-      (a, b) => a + b,
-      0
-    );
-
-    if (totalExtraInterest > profit) {
-      alert(
-        "Total extra interest exceeds the total profit. Please reduce extra interest."
-      );
-      return;
-    }
-
-  
-    const baseProfit = profit - totalExtraInterest;
-
-    
-    let sumProfitShares = 0;
-    let results = members.map((member, i) => {
-      let contributionPercent = (member.contribution / totalContribution) * 100;
-      let baseShare = (member.contribution / totalContribution) * baseProfit;
-      let extra = extraInterestMap[i] || 0;
-      let total = baseShare + extra;
-
-      sumProfitShares += total;
-      return {
-        ...member,
-        contributionPercent,
-        baseShare,
-        extra,
-        total,
-      };
-    });
-
-
-    const diff = profit - sumProfitShares;
-    if (Math.abs(diff) > 0.01) {
-      
-      let last = results[results.length - 1];
-      last.total += diff;
-      last.baseShare += diff;
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
     }
 
    
-    const totalDiv = document.getElementById("total-contribution");
-    totalDiv.textContent =
-      "Total Contributions by All Members: UGX " + totalContribution.toLocaleString();
+    .sidebar {
+      background: var(--dark);
+      width: 220px;
+      min-height: 100vh;
+      color: rgb(0, 0, 0);
+      padding: 1rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      transition: transform 0.3s ease;
+    }
 
-  
-    for (let i = 0; i < results.length; i++) {
-      const r = results[i];
-      const tr = document.createElement("tr");
+    .sidebar h2 {
+      font-size: 1.2rem;
+      color: var(--accent);
+    }
 
-      tr.innerHTML = `
-        <td>${i + 1}</td>
-        <td class="member-info">
-          <img class="member-img" src="${r.photo}" alt="${r.name}" />
-          <span>${r.name}</span>
-        </td>
-        <td>UGX ${r.contribution.toLocaleString()}</td>
-        <td>${r.contributionPercent.toFixed(2)}%</td>
-        <td>UGX ${r.baseShare.toFixed(2).toLocaleString()}</td>
-        <td>UGX ${r.extra.toLocaleString()}</td>
-        <td class="highlight">UGX ${r.total.toFixed(2).toLocaleString()}</td>
-      `;
-      tbody.appendChild(tr);
+    .sidebar a {
+      display: block;
+      margin: 1rem 0;
+      text-decoration: none;
+      color: rgb(242, 242, 242);
+      font-weight: bold;
+    }
+
+    .menu-toggle {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 999;
+      display: none;
+      cursor: pointer;
+    }
+
+    .bar {
+      width: 25px;
+      height: 3px;
+      background-color: var(--accent);
+      margin: 5px 0;
+    }
+
+    main {
+      margin-left: 220px;
+      padding: 2rem 1rem;
+      flex: 1;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .header img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+
+    .header h1 {
+      font-size: 1.8rem;
+      margin: 0;
+      color: var(--accent);
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      color: #ffffff;
+      background: rgb(45, 44, 44);
+      border-radius: 20px;
+      box-shadow: 0 5px 25px rgb(21, 17, 25);
+      padding: 1.5rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.6s ease;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.8s forwards;
+      
+    }
+    .card.hover
+
+    .card img {
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .card a {
+      display: inline-block;
+      margin-top: 1rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 3rem;
+      color: gray;
     }
 
     
-    const timestampDiv = document.getElementById("timestamp");
-    const now = new Date();
-    timestampDiv.textContent =
-      "Last calculation done on: " +
-      now.toLocaleDateString() +
-      " " +
-      now.toLocaleTimeString();
-  }
-</script>
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.2s; }
+    .card:nth-child(3) { animation-delay: 0.3s; }
+    .card:nth-child(4) { animation-delay: 0.4s; }
+    .card:nth-child(5) { animation-delay: 0.5s; }
+    .card:nth-child(6) { animation-delay: 0.6s; }
+    .card:nth-child(7) { animation-delay: 0.7s; }
+    .card:nth-child(8) { animation-delay: 0.8s; }
+
+    
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        position: fixed;
+        z-index: 998;
+      }
+
+      .sidebar.active {
+        transform: translateX(0);
+      }
+
+      main {
+        margin-left: 0;
+        padding-top: 5rem;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  
+  <div class="menu-toggle" onclick="toggleSidebar()">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+
+ 
+  <div class="sidebar" id="sidebar">
+    <h2>Menu</h2>
+    <a href="#">Home</a>
+    <a href="login.html">Saving Plan</a>
+    <a href="records.html">Info</a>
+    <a href="#">Contact</a>
+  </div>
+
+  
+  <main>
+    <div class="header">
+      <img src="b.jpg" alt="Club Logo" />
+      <h1>ELITE BUSINESS CLUB</h1>
+    </div>
+
+    <div class="container">
+
+      <div class="card">
+        <h3>📖 About the Club</h3>
+        <p>Elite Business Club was founded on April 6th, 2025, with 5 members and has now grown to 10. We are a family-like community focused on investing, financial growth, and supporting one another. Our goal is to pool resources, share knowledge, and create opportunities that benefit all members.
+
+          <p>Our Targets:</p>
+          <b>-Grow membership and networks</b>
+          <b>-Invest in profitable, sustainable ventures</b>
+          <b>-Promote financial literacy and discipline</b>
+          <b>-Build unity and long-term success</b>
+          <b>At Elite Business Club, every success is shared, and every challenge is faced together</b></p></div>
+
+      <div class="card">
+        <h3>🏆 Achievements</h3>
+        <p>Funded a piggary project.</p>
+      </div>
+
+      <div class="card">
+        <h3>💬 Comments</h3>
+        <p>"This club changed my life!" – Sarah<br>"Incredible savings journey." – Dan</p>
+      </div>
+
+      
+      
+
+      <div class="card">
+        <img src="project.jpg" alt="Our Projects">
+        <h3>📸 Our Projects</h3>
+        <p>From piggary farming to gardening, real success backed by the club.</p>
+      </div>
+
+      <div class="card">
+        <h3>User Account Check</h3>
+        <p>Unique savings strategy with reward sharing model.We do accept cash of every value in order to archieve
+          the success of the club in its projects.
+        </p>
+        <a href="login.html">Log into your account →</a>
+      </div>
+
+      <div class="card">
+        <h3>📢 Announcements</h3>
+        <p>📌 Visiting of the garden in the first week of the holiday<br><br>📌 More funds needed for pigs
+        <br>We call upon all memebers to contribute a sum of sh 20,000 each member in order to supply feeds for our pig</p>
+      </div>
+
+      <div class="card">
+        <h3>📝 Project Name</h3>
+        <p>“PIGGY 256” – A startup to explore the goodness in piggary farming</p>
+      </div>
+
+      <div class="card">
+        <h3>📞 Contact</h3>
+        <p>📱 +256 712 345 678<br>📧 elite256@gmail.com<br>📍 Kampala</p>
+      </div>
+    </div>
+
+    <div class="footer">
+      &copy; 2025 Elite Savings Club. All rights reserved.
+    </div>
+  </main>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('active');
+    }
+  </script>
+
 </body>
 </html>
