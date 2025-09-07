@@ -3,322 +3,128 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Elite Business Club</title>
+  <title>Elite Busines Club</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <style>
-    :root {
-      --bg-dark: #0b3d91;
-      --bg-light: #f5f5f5;
-      --text-dark: #fff;
-      --text-light: #000;
-      --card-dark: rgba(0,0,0,0.75);
-      --card-light: rgba(255,255,255,0.95);
-      --announcement-bg: rgba(255, 215, 0, 0.2);
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
+    * {
+      box-sizing: border-box;
       padding: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      background: var(--bg-dark);
-      color: var(--text-dark);
-      transition: background 0.3s, color 0.3s;
+      margin: 0;
     }
-
-    body.dark { background: linear-gradient(135deg, var(--bg-dark), #0f7bbd); color: var(--text-dark); }
-    body.light { background: var(--bg-light); color: var(--text-light); }
-
-    .container {
-      background: var(--card-dark);
-      padding: 30px;
-      border-radius: 12px;
-      width: 520px;
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: #ced7db;
+      color: #000000;
+      padding: 1rem;
+    }
+    header {
+      background: #c00;
+      color: white;
+      padding: 2rem;
       text-align: center;
-      margin: 20px;
-      transition: background 0.3s, color 0.3s;
+      border-radius: 10px;
     }
-
-    body.light .container { background: var(--card-light); }
-
-    input {
-      width: 90%;
-      padding: 10px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 6px;
+    .clubs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
     }
-
-    button {
-      width: 95%;
-      padding: 12px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 6px;
-      background: #f7b733;
-      color: black;
-      font-weight: bold;
+    .club-card {
+      background: #fff;
+      border: 2px solid #c00;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 4px 10px rgba(241, 5, 5, 0.959);
+      transition: transform 0.3s;
       cursor: pointer;
-      transition: background 0.3s;
+      text-decoration: none;
+      color: inherit;
     }
-
-    button:hover { background: #ffcc00; }
-
-    .msg { margin-top: 10px; font-size: 14px; color: #ffcc00; }
-
-    #dashboard { display: none; }
-    .theme-toggle { margin-bottom: 10px; }
-
-    .card { 
-      background: rgba(255,255,255,0.1); 
-      padding: 10px; 
-      margin: 10px 0; 
-      border-radius: 8px; 
-      text-align: left; 
-      transition: background 0.3s;
-      cursor: pointer;
+    .club-card:hover {
+      transform: scale(1.03);
     }
-
-    body.light .card { background: rgba(0,0,0,0.05); }
-    .card:hover { background: rgba(255,255,255,0.2); }
-
+    h2 {
+      color: #c00;
+      margin-bottom: 1rem;
+    }
     .announcement {
-      background: var(--announcement-bg);
-      padding: 10px;
+      background: #ffecec;
+      padding: 1rem;
+      margin-top: 2rem;
+      border-left: 4px solid #c00;
       border-radius: 8px;
-      margin: 15px 0;
-      text-align: left;
-      font-weight: bold;
     }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 10px;
+    .announcement p {
+      margin-bottom: 0.5rem;
     }
-
-    th, td {
-      border: 1px solid #fff;
-      padding: 8px;
-      text-align: center;
-    }
-
-    body.light th, body.light td {
-      border: 1px solid #000;
+    .back-button {
+      display: inline-block;
+      margin: 1rem 0;
+      padding: 0.5rem 1rem;
+      background: rgba(0, 14, 204, 0.286);
+      color: rgb(0, 0, 0);
+      text-decoration: none;
+      border-radius: 10px;
     }
   </style>
 </head>
-<body class="dark">
-  <div class="container" id="authSection">
-    <h2>Elite Club Login</h2>
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="signup()">Sign Up</button>
-    <button onclick="login()">Login</button>
-    <p class="msg" id="msg"></p>
+<body>
+  <a class="back-button" href="index.html">← Back</a>
+  <header>
+    <h1>Elite Business Club</h1>
+    <p>Tap your account to login</p>
+  </header>
+
+  <div class="clubs">
+    <a class="club-card" href="Eliab.html" data-aos="fade-up">
+      <h3>WATANTE ELIAB</h3>
+      <p>Mr.President</p>
+      
+    </a>
+    <a class="club-card" href="Angel.html" data-aos="fade-up">
+      <h3>Nakimuli Tracy</h3>
+      <p>Vice President</p>
+      
+    </a>
+    <a class="club-card" href="Joyce.html" data-aos="fade-up">
+      <h3>Namutebi Joyce</h3>
+      <p>Secretary</p>
+      
+    </a>
+    <a class="club-card" href="Kabanda.html" data-aos="fade-up">
+      <h3>Kabanda Stephen</h3>
+      <p>Mobilizer</p>
+    </a>
+    <a class="club-card" href="Tendo.html" data-aos="fade-up">
+        <h3>Tendo Job Prosper</h3>
+      </a>
+      <a class="club-card" href="Mastulah.html" data-aos="fade-up">
+        <h3>Ndagire Mastulah</h3>
+      </a>
+      <a class="club-card" href="Leith.html" data-aos="fade-up">
+        <h3>Mayanja Leith</h3>
+      </a>
+      <a class="club-card" href="Choosen.html" data-aos="fade-up">
+        <h3>Risen Choosen</h3>
+      </a>
+      <a class="club-card" href="Rose.html" data-aos="fade-up">
+        <h3>Nansubuga Rose</h3>
+      </a>
+      
   </div>
 
-  <div class="container" id="dashboard">
-    <div class="theme-toggle">
-      <button onclick="toggleTheme()">Toggle Dark/Light Theme</button>
-    </div>
-    <h2>Welcome, <span id="userEmail"></span></h2>
-
-    <!-- Savings History -->
-    <h3>Savings History</h3>
-    <table>
-      <thead>
-        <tr><th>Date</th><th>Amount</th></tr>
-      </thead>
-      <tbody id="savingsTable"></tbody>
-    </table>
-    <h3 id="totalSavings">Total: 0</h3>
-
-    <!-- Announcements -->
-    <h3>Announcements</h3>
-    <div id="announcements">
-      <!-- Example announcements, replace with dynamic content if needed -->
-      <div class="announcement">📢 Club meeting this Friday at 5 PM.</div>
-      <div class="announcement">💰 New investment target: April 2026 profits.</div>
-    </div>
-
-    <!-- Search & Member Cards -->
-    <h3>Search Member</h3>
-    <input type="text" id="searchMember" placeholder="Type email to search" oninput="filterMembers()" />
-
-    <h3>Member Cards</h3>
-    <div id="memberCards"></div>
-
-    <button onclick="logout()">Logout</button>
-    <p class="msg" id="dashboardMsg"></p>
+  <div class="announcement" data-aos="fade-up">
+    <h2>📢 Club Announcements</h2>
+    <p>Piggary Project ongoing</p>
+    <p>Sweet Potato project ongoing</p>
+    
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } 
-      from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import { getFirestore, setDoc, doc, collection, getDocs } 
-      from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyB8y4y7bMIteIT029Vzna3rgzcDmSjUAwk",
-      authDomain: "elitesign-in.firebaseapp.com",
-      projectId: "elitesign-in",
-      storageBucket: "elitesign-in.firebasestorage.app",
-      messagingSenderId: "404062937521",
-      appId: "1:404062937521:web:4460e2ccc011dd6afa5d90",
-      measurementId: "G-7V5CND9FG4"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    const authSection = document.getElementById("authSection");
-    const dashboard = document.getElementById("dashboard");
-    const userEmailSpan = document.getElementById("userEmail");
-    const memberCardsDiv = document.getElementById("memberCards");
-    const savingsTable = document.getElementById("savingsTable");
-    const totalSavingsEl = document.getElementById("totalSavings");
-    const msgEl = document.getElementById("msg");
-    const dashboardMsgEl = document.getElementById("dashboardMsg");
-    const searchInput = document.getElementById("searchMember");
-
-    let allMembers = [];
-    let adminMode = false;
-
-    function toggleTheme() {
-      document.body.classList.toggle("dark");
-      document.body.classList.toggle("light");
-    }
-    window.toggleTheme = toggleTheme;
-
-    async function signup() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-        await setDoc(doc(db, "users", user.uid), { email: email });
-        msgEl.innerText = "✅ Sign up successful!";
-      } catch (error) {
-        msgEl.innerText = "❌ " + error.message;
-      }
-    }
-
-    async function login() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-      } catch (error) {
-        msgEl.innerText = "❌ " + error.message;
-      }
-    }
-
-    async function logout() {
-      await signOut(auth);
-      dashboard.style.display = "none";
-      authSection.style.display = "block";
-      msgEl.innerText = "Logged out!";
-      dashboardMsgEl.innerText = "";
-      memberCardsDiv.innerHTML = "";
-    }
-
-    async function loadSavings(userId) {
-      savingsTable.innerHTML = "";
-      memberCardsDiv.innerHTML = "";
-      let total = 0;
-
-      // Load user savings
-      const savingsSnapshot = await getDocs(collection(db, "savings"));
-      const userSavings = [];
-      savingsSnapshot.forEach(docSnap => {
-        const data = docSnap.data();
-        if(data.userId === userId){
-          savingsTable.innerHTML += `<tr><td>${data.date}</td><td>${data.amount}</td></tr>`;
-          total += data.amount;
-        }
-        userSavings.push(data);
-      });
-      totalSavingsEl.innerText = "Total: " + total;
-
-      // Load all members
-      const usersSnapshot = await getDocs(collection(db, "users"));
-      allMembers = [];
-      usersSnapshot.forEach(docSnap => {
-        const userData = docSnap.data();
-        allMembers.push(userData);
-      });
-      displayMembers(allMembers);
-    }
-
-    function displayMembers(members) {
-      memberCardsDiv.innerHTML = "";
-      members.forEach(userData => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `<strong>${userData.email}</strong>`;
-        card.addEventListener("click", () => {
-          if(adminMode){
-            showMemberSavings(userData.email);
-          }
-        });
-        memberCardsDiv.appendChild(card);
-      });
-    }
-
-    async function showMemberSavings(email) {
-      savingsTable.innerHTML = "";
-      let total = 0;
-      const usersSnapshot = await getDocs(collection(db, "users"));
-      let memberId = null;
-      usersSnapshot.forEach(docSnap => {
-        const data = docSnap.data();
-        if(data.email === email) memberId = docSnap.id;
-      });
-      if(!memberId) return dashboardMsgEl.innerText = "❌ Member not found";
-
-      const savingsSnapshot = await getDocs(collection(db, "savings"));
-      savingsSnapshot.forEach(docSnap => {
-        const data = docSnap.data();
-        if(data.userId === memberId){
-          savingsTable.innerHTML += `<tr><td>${data.date}</td><td>${data.amount}</td></tr>`;
-          total += data.amount;
-        }
-      });
-      totalSavingsEl.innerText = "Total: " + total;
-      dashboardMsgEl.innerText = "Showing savings for " + email;
-    }
-
-    function filterMembers() {
-      const term = searchInput.value.toLowerCase();
-      const filtered = allMembers.filter(member => member.email.toLowerCase().includes(term));
-      displayMembers(filtered);
-    }
-    window.filterMembers = filterMembers;
-
-    onAuthStateChanged(auth, user => {
-      if(user){
-        authSection.style.display = "none";
-        dashboard.style.display = "block";
-        userEmailSpan.innerText = user.email;
-
-        // Enable admin mode if this is your admin account
-        if(user.email === "YOUR_ADMIN_EMAIL_HERE") adminMode = true;
-
-        loadSavings(user.uid);
-      } else {
-        authSection.style.display = "block";
-        dashboard.style.display = "none";
-      }
-    });
-
-    window.signup = signup;
-    window.login = login;
-    window.logout = logout;
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
   </script>
 </body>
 </html>
