@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Worship Display</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+    body {
+      margin: 0;
+      background: url('hands.jpg') no-repeat center center/cover;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 10vh;
+      background-attachment: fixed;
+    }
+
+    .announcement {
+      position: fixed;
+      top: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 2vw;
+      font-weight: 700;
+      color: yellow;
+      z-index: 10;
+      text-shadow: 1px 1px 3px black;
+      user-select: none;
+      margin-bottom: 200px;
+    }
+
+    .content, #bothContainer {
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-radius: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      text-align: center;
+      padding: 30px 20px;
+      width: 90%;
+      max-width: 900px;
+      max-height: 70vh;
+      overflow: hidden;
+      margin: 0 auto;
+      animation-fill-mode: forwards;
+    }
+
+    .content.show, #bothContainer.show {
+      opacity: 1;
+      animation: comboIn 1.5s ease forwards;
+    }
+
+    .verseText, .lyricsText, #bothVerseText, #bothLyricsText {
+      line-height: 1.4;
+      white-space: pre-line;
+      display: inline-block;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    #verseRef, #bothVerseRef {
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 700;
+      margin-top: 10px;
+      user-select: none;
+    }
+
+    #bothContainer {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @keyframes comboIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.95) translateY(50px);
+      }
+      60% {
+        opacity: 0.8;
+        transform: scale(1.02) translateY(-10px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="announcement" id="announcementText">ELSHADAI LIHOCIAN CHURCH</div>
+
+  <div class="content" id="verseContainer">
+    <div class="verseText" id="verseText"></div>
+    <div id="verseRef"></div>
+  </div>
+
+  <div class="content" id="lyricsContainer" style="display:none;">
+    <div class="lyricsText" id="lyricsText"></div>
+  </div>
+
+  <div class="content" id="bothContainer" style="display:none;">
+    <div class="verseText" id="bothVerseText"></div>
+    <div id="bothVerseRef"></div>
+    <br />
+    <div class="lyricsText" id="bothLyricsText"></div>
+  </div>
+
+  <script>
+    const announcement = document.getElementById('announcementText');
+    const verseContainer = document.getElementById('verseContainer');
+    const lyricsContainer = document.getElementById('lyricsContainer');
+    const bothContainer = document.getElementById('bothContainer');
+    const verseText = document.getElementById('verseText');
+    const verseRef = document.getElementById('verseRef');
+    const lyricsText = document.getElementById('lyricsText');
+    const bothVerseText = document.getElementById('bothVerseText');
+    const bothVerseRef = document.getElementById('bothVerseRef');
+    const bothLyricsText = document.getElementById('bothLyricsText');
+
+    function showContainer(target) {
+      verseContainer.style.display = 'none';
+      lyricsContainer.style.display = 'none';
+      bothContainer.style.display = 'none';
+      verseContainer.classList.remove('show');
+      lyricsContainer.classList.remove('show');
+      bothContainer.classList.remove('show');
+      target.style.display = 'block';
+      setTimeout(() => target.classList.add('show'), 20);
+    }
+
+    function displayText(container, text) {
+      const words = text.trim().split(/\s+/);
+      let fontSize;
+      if (words.length <= 10) fontSize = "6vw";
+      else if (words.length <= 20) fontSize = "4vw";
+      else if (words.length <= 40) fontSize = "3vw";
+      else fontSize = "2.2vw";
+      container.style.fontSize = fontSize;
+      container.textContent = text;
+    }
+
+    async function fetchVerseNKJV(reference) {
+      try {
+        const url = `https://bible-api.com/${encodeURIComponent(reference)}?translation=kjv`;
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('API error');
+        const data = await response.json();
+        if (!data.verses && !data.text) {
+          throw new Error('Verse not found');
+        }
+        let text = '';
+        if (data.text) {
+          text = data.text.trim();
+        } else if (Array.isArray(data.verses)) {
+          text = data.verses.map(v => v.text.trim()).join(' ');
+        } else {
+          text = 'Verse text not available.';
+        }
+        return {
+          text,
+          reference: data.reference || reference
+        };
+      } catch (e) {
+        return {
+          text: "Verse not found.",
+          reference
+        };
+      }
+    }
+
+    window.addEventListener("message", async (event) => {
+      const data = event.data;
+      const mode = data.mode || 'lyrics';
+      const announce = data.announcement || '';
+      announcement.textContent = announce || "ELSHADAI LIHOCIAN CHURCH";
+
+      if (mode === "verse") {
+        const verseRefInput = data.verse || "John 3:16";
+        const verseData = await fetchVerseNKJV(verseRefInput);
+        displayText(verseText, verseData.text);
+        verseRef.textContent = verseData.reference;
+        showContainer(verseContainer);
+      } else if (mode === "lyrics") {
+        displayText(lyricsText, data.lyrics || "No lyrics sent.");
+        showContainer(lyricsContainer);
+      } else if (mode === "both") {
+        const verseRefInput = data.verse || "John 3:16";
+        const verseData = await fetchVerseNKJV(verseRefInput);
+        displayText(bothVerseText, verseData.text);
+        bothVerseRef.textContent = verseData.reference;
+        displayText(bothLyricsText, data.lyrics || "No lyrics sent.");
+        showContainer(bothContainer);
+      }
+    });
+  </script>
+</body>
+</html>

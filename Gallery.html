@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elite Business Club - Gallery</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #ff4d4d;
+  --secondary: #1a1a1a;
+  --accent: #ffd11a;
+  --bg: linear-gradient(270deg, #ffe6e6, #f5f5f5, #fff0f0);
+}
+body {
+  margin:0; font-family:'Outfit',sans-serif; overflow-x:hidden;
+  animation: gradientBG 15s ease infinite;
+  background-size: 600% 600%;
+}
+@keyframes gradientBG {
+  0% {background-position:0% 50%;}
+  50% {background-position:100% 50%;}
+  100% {background-position:0% 50%;}
+}
+
+header { background: var(--primary); color:#fff; padding:20px; text-align:center; box-shadow:0 5px 15px rgba(0,0,0,0.2);}
+header h1 { margin:0; font-size:1.8rem; }
+
+.container {
+  padding:20px;
+  display:grid;
+  grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+  gap:20px;
+}
+
+/* Card Styling */
+.card {
+  background:#fff;
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 8px 25px rgba(0,0,0,0.2);
+  transition: all 0.4s ease;
+  cursor:pointer;
+  border: 4px solid transparent;
+  background-clip: padding-box;
+}
+.card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow:0 15px 35px rgba(0,0,0,0.3);
+  border-image: linear-gradient(45deg,#ff4d4d,#ffd11a,#ff4d4d) 1;
+}
+.card img, .card video {
+  width:100%;
+  display:block;
+  border-bottom:1px solid #ddd;
+  border-radius:0;
+}
+.card-content { padding:15px; text-align:center; }
+.card-content h3 { color: var(--primary); margin-bottom:0; font-size:1.1rem; font-weight:700; }
+
+/* Video hover effect */
+.card video { transition: transform 0.3s ease; }
+.card video:hover { transform: scale(1.05); }
+
+/* Lightbox */
+#lightbox { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); justify-content:center; align-items:center; z-index:1000; }
+#lightbox-content { position:relative; max-width:90%; max-height:90%; }
+#lightbox-content img, #lightbox-content video { width:100%; height:auto; border-radius:10px; }
+#closeLightbox { position:absolute; top:-20px; right:-20px; background:#ff4d4d; color:#fff; border:none; font-size:1.5rem; padding:5px 12px; border-radius:50%; cursor:pointer; }
+
+footer { text-align:center; padding:20px; background:#1a1a1a; color:#fff; margin-top:20px; font-size:0.9rem; }
+
+/* WhatsApp Floating Icon */
+#whatsapp {
+  position:fixed;
+  bottom:30px;
+  right:30px;
+  background:#25D366;
+  color:#fff;
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:30px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.3);
+  cursor:pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  z-index:1001;
+}
+#whatsapp:hover { transform: scale(1.1); box-shadow:0 12px 25px rgba(0,0,0,0.4); }
+
+@media (max-width:600px){
+  header h1 { font-size:1.5rem; }
+  .container { padding:10px; gap:15px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Elite Business Club Gallery</h1>
+</header>
+
+<div class="container">
+  <!-- Image Card -->
+  <div class="card" onclick="openLightbox('image','ebc.png')">
+    <img src="ebc.png" alt="Club Logo or Image">
+    <div class="card-content"><h3>Club Logo</h3></div>
+  </div>
+
+  <!-- Video Cards -->
+  <div class="card" onclick="openLightbox('video','land.mp4')">
+    <video muted playsinline loop>
+      <source src="land.mp4" type="video/mp4">
+    </video>
+    <div class="card-content"><h3>Land Overview</h3></div>
+  </div>
+
+  <div class="card" onclick="openLightbox('video','garden.mp4')">
+    <video muted playsinline loop>
+      <source src="garden.mp4" type="video/mp4">
+    </video>
+    <div class="card-content"><h3>Garden Project</h3></div>
+  </div>
+
+  <div class="card" onclick="openLightbox('video','garden2.mp4')">
+    <video muted playsinline loop>
+      <source src="garden2.mp4" type="video/mp4">
+    </video>
+    <div class="card-content"><h3>Garden Progress</h3></div>
+  </div>
+
+  <div class="card" onclick="openLightbox('video','digging.mp4')">
+    <video muted playsinline loop>
+      <source src="digging.mp4" type="video/mp4">
+    </video>
+    <div class="card-content"><h3>Digging Work</h3></div>
+  </div>
+
+  <div class="card" onclick="openLightbox('video','sty.mp4')">
+    <video muted playsinline loop>
+      <source src="sty 2.mp4" type="video/mp4">
+    </video>
+    <div class="card-content"><h3>Pig Sty Construction</h3></div>
+  </div>
+</div>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="closeLightbox()">
+  <div id="lightbox-content">
+    <button id="closeLightbox" onclick="closeLightbox()">×</button>
+  </div>
+</div>
+
+<!-- WhatsApp Floating Icon -->
+<div id="whatsapp" onclick="window.open('https://wa.me/+256702640109','_blank')">🟢</div>
+
+<footer>
+  &copy; 2025 Elite Business Club. All rights reserved.
+</footer>
+
+<script>
+// Auto play videos on hover
+const videoCards = document.querySelectorAll('.card video');
+videoCards.forEach(v=>{
+  v.addEventListener('mouseenter', ()=>{ v.play(); });
+  v.addEventListener('mouseleave', ()=>{ v.pause(); v.currentTime=0; });
+});
+
+// Lightbox functionality
+function openLightbox(type, src){
+  const lb = document.getElementById('lightbox');
+  const lbContent = document.getElementById('lightbox-content');
+  lbContent.innerHTML = `<button id="closeLightbox" onclick="closeLightbox()">×</button>`;
+  if(type==='image'){
+    const img = document.createElement('img'); img.src=src; lbContent.appendChild(img);
+  } else if(type==='video'){
+    const vid = document.createElement('video'); vid.src=src; vid.controls=true; vid.autoplay=true; vid.loop=true; vid.muted=false; lbContent.appendChild(vid);
+  }
+  lb.style.display='flex';
+}
+
+function closeLightbox(){ document.getElementById('lightbox').style.display='none'; }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Risen Choosen# Elite</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: #fff;
+      color: #111;
+      transition: background 0.3s, color 0.3s;
+      scroll-behavior: smooth;
+    }
+    body.dark-mode {
+      background: #111;
+      color: #eee;
+    }
+    header {
+      background: #c00;
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 1rem;
+      color: #c00;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      margin: 2rem auto;
+      max-width: 1000px;
+      transition: background 0.3s;
+      animation: fadeInUp 0.8s ease forwards;
+    }
+    body.dark-mode .card {
+      background: #222;
+    }
+    .toggle-mode {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background: #c00;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+      z-index: 1000;
+    }
+    .toggle-mode:hover {
+      background: #900;
+    }
+    .live-scoreboard {
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #c00;
+      animation: pulse 1s infinite alternate;
+    }
+    @keyframes pulse {
+      from { opacity: 0.6; }
+      to { opacity: 1; }
+    }
+    .features, .gallery, .polls, .highlight-videos, .leaderboard, .carousel, .schedule, .fan-wall, .comparison {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .feature, .gallery-card, .poll, .video-card, .leaderbar, .carousel-card, .schedule-card, .fan-card, .compare-card {
+      background: #f5f5f5;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    body.dark-mode .feature,
+    body.dark-mode .gallery-card,
+    body.dark-mode .poll,
+    body.dark-mode .video-card,
+    body.dark-mode .leaderbar,
+    body.dark-mode .carousel-card,
+    body.dark-mode .schedule-card,
+    body.dark-mode .fan-card,
+    body.dark-mode .compare-card {
+      background: #333;
+    }
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .back-button {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      background: #c00;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+      text-decoration: none;
+      font-weight: bold;
+      z-index: 1000;
+    }
+    .back-button:hover {
+      background: #900;
+    }
+
+    /* PASSWORD OVERLAY */
+    #passwordOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #c00, #900);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 2000;
+    }
+    #passwordBox {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      animation: fadeIn 1s ease forwards;
+    }
+    #passwordBox h2 {
+      margin-bottom: 1rem;
+      color: #c00;
+    }
+    #passwordInput {
+      padding: 0.8rem;
+      width: 100%;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      outline: none;
+      font-size: 1rem;
+    }
+    #submitPassword {
+      background: #c00;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+    #submitPassword:hover {
+      background: #900;
+    }
+    #errorMsg {
+      color: red;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      display: none;
+    }
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- PASSWORD OVERLAY -->
+  <div id="passwordOverlay">
+    <div id="passwordBox">
+      <h2>🔒 Enter Password</h2>
+      <input type="password" id="passwordInput" placeholder="Enter Password" />
+      <button id="submitPassword">Unlock</button>
+      <div id="errorMsg">Incorrect password. Try again.</div>
+    </div>
+  </div>
+
+  <a class="back-button" href="Accounts.html">←</a>
+  
+  <header>
+    <h1>Welcome Risen Choosen</h1>
+    <p>Elite Business Club</p>
+  </header>
+
+  <div class="card" data-aos="fade-up">
+    <h2>Notification</h2>
+    <div class="live-scoreboard">Thank you for your passistant investing.</div>
+  </div>
+
+  <div class="card" data-aos="fade-up">
+    <h2>Announcements</h2>
+    <ul>
+      <li>We have a piggary project on going</li>
+      <li>More money is needed</li>
+      <li>Sweet potato project is on going</li>
+    </ul>
+  </div>
+
+  <div class="card" data-aos="fade-up">
+    <h2>Your First Term Savings</h2>
+    <table class="player-table">
+      <tr><th>Amount</th><th>Date</th>
+      <tr><td>50000</td><td>4/30/2025</td>
+      <tr><td>Deduction</td><td>30000</td>
+      <tr><td><h2>G.Total</h2></td><td>20,000</td>
+    </table>
+  </div>
+
+  <div class="card" data-aos="fade-up">
+    <h2>Your Second Term Savings</h2>
+    <table class="player-table">
+      <tr><th>Amount</th><th>Date</th></tr>
+      <tr><td>xxxxx</td><td>xxxxx</td></tr>
+    </table>
+  </div>
+
+  <div class="card" data-aos="fade-up">
+    <h2>Your notification and debts will appear here</h2>
+    <div class="leaderboard">
+      <div class="leaderbar">You missed a project site visit Hence UGX30,000</div>
+    </div>
+  </div>
+
+  <div class="card" data-aos="fade-up">
+    <h2>Club News</h2>
+    <ul>
+      <li>Piggary Project on going</li>
+      <li>Sweet potato project on going</li>
+      <li>Wifi Project on the way</li>
+    </ul>
+  </div>
+
+  <div class="card" data-aos="fade-up">
+    <h2>❤️ Fan Wall</h2>
+    <div class="fan-wall">
+      <div class="fan-card">"Drop a comment" - Kevin</div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+
+    // PASSWORD PROTECTION
+    const correctPassword = "rose123";
+    const passwordOverlay = document.getElementById("passwordOverlay");
+    const submitBtn = document.getElementById("submitPassword");
+    const passwordInput = document.getElementById("passwordInput");
+    const errorMsg = document.getElementById("errorMsg");
+
+    submitBtn.addEventListener("click", () => {
+      if (passwordInput.value === correctPassword) {
+        passwordOverlay.style.display = "none";
+      } else {
+        errorMsg.style.display = "block";
+        passwordInput.value = "";
+      }
+    });
+
+    passwordInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") submitBtn.click();
+    });
+  </script>
+</body>
+</html>

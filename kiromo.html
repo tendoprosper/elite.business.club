@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>KIROMO Ticket Generator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #fff4f4;
+      padding: 30px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #b30000;
+      margin-bottom: 20px;
+      font-size: 2em;
+      text-shadow: 1px 1px 2px #00000020;
+    }
+
+    input, button {
+      padding: 12px;
+      width: 90%;
+      max-width: 300px;
+      margin: 10px auto;
+      display: block;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+      box-shadow: 2px 2px 5px #ddd;
+    }
+
+    button {
+      background-color: #b30000;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #8a0000;
+    }
+
+    .tickets {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .ticket {
+      background: linear-gradient(135deg, #fffdfd, #ffeaea);
+      width: 320px;
+      padding: 20px;
+      border: 3px double #fb0303;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(179, 0, 0, 0.2);
+      position: relative;
+    }
+
+    .ticket::before {
+      content: "TJ";
+      position: absolute;
+      top: -15px;
+      right: -15px;
+      background: #ff0505;
+      color: white;
+      font-size: 24px;
+      padding: 10px;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #0005;
+    }
+
+    .ticket h2 {
+      color: #b30000;
+      font-size: 1.2em;
+      margin-bottom: 10px;
+      text-align: center;
+      border-bottom: 1px dashed #b30000;
+      padding-bottom: 5px;
+    }
+
+    .ticket p {
+      margin: 3px 0;
+      font-size: 1em;
+    }
+
+    .ribbon {
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      background: rgb(255, 217, 1);
+      color: #333;
+      padding: 5px 10px;
+      font-size: 0.75em;
+      font-weight: bold;
+      border-radius: 5px 0 10px 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .ticket small {
+      display: block;
+      text-align: center;
+      margin-top: 10px;
+      color: #444;
+      font-size: 0.8em;
+    }
+
+    @media print {
+      input, h1, .print-btn, .generate-btn {
+        display: none;
+      }
+
+      body {
+        background: white;
+      }
+
+      .ticket {
+        page-break-inside: avoid;
+      }
+    }
+    FOOTER{
+      color:green;
+      text-shadow: 0 , 10px red;
+
+    }
+  </style>
+</head>
+<body>
+
+  <h1>KIROMO TICKET GENERATOR</h1>
+
+  <input type="number" id="ticketCount" placeholder="Enter number of tickets" min="1" max="200">
+  <button class="generate-btn" onclick="generatePlaceholderTickets()">Generate Blank Tickets</button>
+
+  <div class="tickets" id="ticketContainer"></div>
+
+  <button class="print-btn" onclick="window.print()"> Print Tickets</button>
+
+  <script>
+    function generatePlaceholderTickets() {
+      const count = parseInt(document.getElementById('ticketCount').value);
+      const container = document.getElementById('ticketContainer');
+      container.innerHTML = '';
+
+      if (isNaN(count) || count < 1) {
+        alert('Please enter a valid number of tickets.');
+        return;
+      }
+
+      for (let i = 1; i <= count; i++) {
+        const ticketNum = String(i).padStart(4, '0');
+
+        const ticket = document.createElement('div');
+        ticket.className = 'ticket';
+        ticket.innerHTML = `
+          <div class="ribbon">KIROMO</div>
+          <h2>PENS DOWN PARTY </h2>
+          <p><strong>Name:</strong> __________________________</p>
+          <p><strong>Class:</strong> _________________________</p>
+          <p><strong>Ticket No:</strong> KIROMO-${ticketNum}</p>
+          <small>Valid for Entry • ${new Date().getFullYear()}</small>
+        `;
+
+        container.appendChild(ticket);
+      }
+    }
+  </script>
+<footer>TENDOS TECH</footer>
+</body>
+</html>

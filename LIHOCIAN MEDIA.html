@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ELSHADAI STREAM Controller</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(to bottom right, #000000, #111111);
+      font-family: 'Inter', sans-serif;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      display: flex;
+      gap: 2rem;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .notebook {
+      width: 240px;
+      min-height: 300px;
+      background: repeating-linear-gradient(#1a1a1a, #1a1a1a 30px, #111 30px, #111 32px);
+      border: 2px dashed #777;
+      border-radius: 12px;
+      box-shadow: 0 0 10px 5px #00f6ff88;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .notebook h3 {
+      margin: 0;
+      color: #0ff;
+      font-size: 1.1rem;
+      border-bottom: 1px solid #0ff;
+      padding: 0.7rem 1rem 0.4rem;
+    }
+
+    .notebook textarea {
+      flex: 1;
+      background: transparent;
+      color: #fff;
+      border: none;
+      outline: none;
+      padding: 1rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      
+      resize: none;
+    }
+
+    .controller {
+      background: #0d0d0d;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 0 25px 5px #00f6ff88, inset 0 0 10px #0ff3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 400px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 0 6px #0ff;
+      color: #0ff;
+    }
+
+    input {
+      padding: 12px 20px;
+      font-size: 1.1rem;
+      border-radius: 12px;
+      border: none;
+      width: 100%;
+      margin-bottom: 1.2rem;
+      outline: none;
+      background: rgba(255, 255, 255, 0.08);
+      color: white;
+      backdrop-filter: blur(6px);
+      transition: background 0.3s ease;
+    }
+
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    input:focus {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .switch-group {
+      display: flex;
+      gap: 2rem;
+      margin-top: 1.5rem;
+      align-items: center;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 26px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      background-color:rgb(201, 4, 4);
+      border-radius: 34px;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      transition: .4s;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: #000;
+      border-radius: 50%;
+      transition: .4s;
+    }
+
+    input:checked + .slider {
+      background-color: #09f711;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+
+    footer {
+      color: #888;
+      font-size: 0.95rem;
+      margin-top: 2rem;
+      text-align: center;
+      text-shadow: 0 0 5px #0ff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Left Notebook: Songs -->
+    <div class="notebook">
+      <h3>Songs Notebook</h3>
+      <textarea placeholder="Songs here..."></textarea>
+    </div>
+
+    <!-- Main Controller -->
+    <div class="controller">
+      <h1>ELSHADAI STREAM Control</h1>
+
+      <input type="text" id="verseInput" placeholder=" John 3:16" />
+      <input type="text" id="lyricsInput" placeholder="Song Lyrics" />
+      <input type="text" id="announcementInput" placeholder="Announcement" />
+
+      <div class="switch-group">
+        <label>Verse
+          <div class="switch">
+            <input type="checkbox" id="verseSwitch">
+            <span class="slider"></span>
+          </div>
+        </label>
+        <label>Lyrics
+          <div class="switch">
+            <input type="checkbox" id="lyricsSwitch">
+            <span class="slider"></span>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Right Notebook: Verses -->
+    <div class="notebook">
+      <h3>Verses Notebook</h3>
+      <textarea placeholder="Verses here..."></textarea>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    Made by TENDO TECH
+  </footer>
+
+  <script>
+    const backgrounds = ["images/bible.jpg"];
+    let verseWindow;
+
+    document.getElementById("verseInput").addEventListener("keypress", function (e) {
+      if (e.key === "Enter") sendData();
+    });
+    document.getElementById("lyricsInput").addEventListener("keypress", function (e) {
+      if (e.key === "Enter") sendData();
+    });
+
+    function sendData() {
+      const verse = document.getElementById("verseInput").value.trim();
+      const lyrics = document.getElementById("lyricsInput").value.trim();
+      const announcement = document.getElementById("announcementInput").value.trim();
+      const verseOn = document.getElementById("verseSwitch").checked;
+      const lyricsOn = document.getElementById("lyricsSwitch").checked;
+
+      if (!verseOn && !lyricsOn) return alert("Please turn ON Verse or Lyrics switch to display.");
+
+      const mode = verseOn && lyricsOn ? "both" : (verseOn ? "verse" : "lyrics");
+
+      if (!verseWindow || verseWindow.closed) {
+        verseWindow = window.open("verse.html", "_blank");
+      }
+
+      setTimeout(() => {
+        verseWindow.postMessage({ mode, verse, lyrics, announcement }, "*");
+      }, 500);
+    }
+  </script>
+</body>
+</html>

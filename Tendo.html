@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tendo Prosper# Elite</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Outfit', sans-serif;
+    }
+    body {
+      background: #fff;
+      color: #111;
+      transition: background 0.3s, color 0.3s;
+      scroll-behavior: smooth;
+    }
+    body.dark-mode {
+      background: #111;
+      color: #eee;
+    }
+
+    /* PASSWORD SCREEN STYLING */
+    #password-screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #ff4b2b, #ff416c);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+    #password-screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #password-box {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      max-width: 350px;
+      width: 90%;
+      animation: slideDown 0.8s ease forwards;
+    }
+    #password-box h2 {
+      margin-bottom: 1rem;
+      color: #c00;
+    }
+    #password-input {
+      width: 100%;
+      padding: 0.7rem;
+      margin: 1rem 0;
+      border: 2px solid #c00;
+      border-radius: 10px;
+      outline: none;
+      font-size: 1rem;
+      text-align: center;
+    }
+    #password-btn {
+      background: #c00;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-weight: bold;
+    }
+    #password-btn:hover {
+      background: #900;
+    }
+    #error-msg {
+      color: red;
+      font-size: 0.9rem;
+      display: none;
+      margin-top: 0.5rem;
+    }
+    @keyframes slideDown {
+      0% { transform: translateY(-30px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    /* MAIN PAGE STYLES */
+    header {
+      background: #c00;
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 1rem;
+      color: #c00;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      margin: 2rem auto;
+      max-width: 1000px;
+      transition: background 0.3s;
+      animation: fadeInUp 0.8s ease forwards;
+    }
+    body.dark-mode .card {
+      background: #222;
+    }
+    .live-scoreboard {
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #c00;
+      animation: pulse 1s infinite alternate;
+    }
+    @keyframes pulse {
+      from { opacity: 0.6; }
+      to { opacity: 1; }
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    th {
+      background-color: #c00;
+      color: white;
+    }
+    .player-table th, .player-table td {
+      text-align: center;
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .back-button {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      background: #c00;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+      text-decoration: none;
+      font-weight: bold;
+      z-index: 1000;
+    }
+    .back-button:hover {
+      background: #900;
+    }
+  </style>
+</head>
+<body>
+  <!-- PASSWORD SCREEN -->
+  <div id="password-screen">
+    <div id="password-box">
+      <h2>Enter Password</h2>
+      <input type="password" id="password-input" placeholder="••••••">
+      <button id="password-btn">Unlock</button>
+      <p id="error-msg">Incorrect password. Try again!</p>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <a class="back-button" href="Accounts.html">←</a>
+  <header>
+    <h1>Welcome Tendo Prosper</h1>
+    <p>Elite Business Club</p>
+  </header>
+
+  <div class="card" data-aos="fade-up">
+    <h2>Notification</h2>
+    <div class="live-scoreboard">Thank you for your assistant investing.</div>
+  </div>
+
+  <div class="card" data-aos="fade-up">
+    <h2>Announcements</h2>
+    <ul>
+      <li>We have a piggery project ongoing</li>
+      <li>More money is needed</li>
+      <li>Sweet potato project is ongoing</li>
+    </ul>
+  </div>
+
+  <div class="card" data-aos="fade-up">
+    <h2>Your Frist Term   Savings</h2>
+    <table class="player-table">
+      <tr><th>Amount(UGX)</th><th>Date</th>
+      <tr><td>10000</td><td>5/26/2025</td>
+      <tr><td>5000</td><td>7/3/2025</td>
+      <tr><td>15000</td><td>15000</td>
+        <tr><td><h2>G.Total</h2></td><td>30,000</td>
+    </table>
+  </div>
+  	
+  <div class="card" data-aos="fade-up">
+    <h2>Your second term Savings</h2>
+    <table class="player-table">
+      <tr><th>Amount</th><th>Date</th></tr>
+      <tr><td>xxxxx</td><td>xxxxx</td></tr>
+      <!-- <tr><td>xxxx</td><td>xxxx</td></tr>
+      <tr><td>xxxx</td><td>xxxx</td></tr>
+      <tr><td>xxxx</td><td>xxxxx</td></tr> -->
+    </table>
+  </div>
+
+  <div class="card" data-aos="fade-up">
+    <h2>Your notifications and debts will appear here</h2>
+    <div class="leaderboard">
+      <div class="leaderbar">Thank you for accomplishing 2025 investments</div>
+    </div>
+  </div>
+
+  <div class="card" data-aos="fade-up">
+    <h2>Club News</h2>
+    <ul>
+      <li>Piggery Project ongoing</li>
+      <li>Sweet potato project ongoing</li>
+      <li>Wifi Project on the way</li>
+    </ul>
+  </div>
+
+  <div class="card" data-aos="fade-up">
+    <h2>❤️ Fan Wall</h2>
+    <div class="fan-wall">
+      <div class="fan-card">"Drop a comment" - Kevin</div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+
+    // PASSWORD SYSTEM
+    const correctPassword = "tendo123"; // Change password here
+    const passwordScreen = document.getElementById("password-screen");
+    const passwordInput = document.getElementById("password-input");
+    const passwordBtn = document.getElementById("password-btn");
+    const errorMsg = document.getElementById("error-msg");
+
+    passwordBtn.addEventListener("click", () => {
+      if (passwordInput.value === correctPassword) {
+        passwordScreen.classList.add("hidden");
+        setTimeout(() => passwordScreen.style.display = "none", 500);
+      } else {
+        errorMsg.style.display = "block";
+        passwordInput.value = "";
+      }
+    });
+
+    passwordInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") passwordBtn.click();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elite Business Club - Admin Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #ff4d4d;
+  --secondary: #1a1a1a;
+  --accent: #ffd11a;
+  --bg: linear-gradient(135deg, #ffe6e6, #ffffff);
+  --card-bg: #fff;
+  --hover-card: #ffe6e6;
+}
+
+/* Global */
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Outfit', sans-serif; }
+body { background: var(--bg); color: var(--secondary); overflow-x:hidden; animation:bgAnim 30s infinite linear; }
+@keyframes bgAnim { 0%{background-position:0 0;} 50%{background-position:100% 100%;} 100%{background-position:0 0;} }
+
+header { background: var(--primary); color: #fff; padding: 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top:0; z-index:100; }
+header img { height:50px; }
+header h1 { font-size:1.5rem; }
+
+.container { padding:20px; display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px; transition: all 0.5s ease;}
+
+.card { background: var(--card-bg); padding:20px; border-radius:15px; box-shadow:0 8px 20px rgba(0,0,0,0.1); 
+transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.3s ease, opacity 0.6s ease; 
+opacity:0; transform: translateY(20px);}
+.card:hover { transform: translateY(-5px); box-shadow:0 12px 25px rgba(0,0,0,0.2); background:var(--hover-card);}
+.card.show { opacity:1; transform: translateY(0); }
+
+h2 { margin-bottom:15px; color: var(--primary); }
+table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+th, td { padding:8px; text-align:left; border-bottom:1px solid #ddd; }
+input[type=number], input[type=password] { width:100%; padding:8px; margin-top:5px; border-radius:8px; border:1px solid #ccc; }
+button { margin-top:10px; padding:10px 15px; background:var(--primary); color:#fff; border:none; border-radius:8px; cursor:pointer; transition: background 0.3s ease; }
+button:hover { background:#e60000; }
+
+.notification { position: fixed; top: 20px; right: 20px; background: var(--accent); color: var(--secondary); padding: 15px 20px; border-radius: 10px; box-shadow:0 8px 15px rgba(0,0,0,0.1); display:none; }
+
+#menuBtn { position:fixed; bottom:20px; right:20px; width:50px; height:50px; background:var(--primary); border-radius:50%; box-shadow:0 8px 20px rgba(0,0,0,0.2); display:flex; justify-content:center; align-items:center; cursor:pointer; z-index:100; flex-wrap:wrap; }
+#menuBtn div { width:6px; height:6px; background:#fff; margin:2px; border-radius:50%; }
+#floatingMenu { position:fixed; bottom:80px; right:20px; width:200px; background:#fff; border-radius:15px; box-shadow:0 8px 25px rgba(0,0,0,0.2); padding:15px; display:none; flex-direction:column; z-index:99; }
+#floatingMenu button { margin-bottom:8px; padding:8px; border:none; border-radius:8px; cursor:pointer; background:#ffd11a; transition:0.3s; }
+#floatingMenu button:hover { background:#ffdd55; }
+#floatingMenu h3 { margin-bottom:10px; color:var(--primary);}
+.backBtn { position:fixed; top:90px; right:20px; padding:8px 15px; background:#28a745; color:#fff; border:none; border-radius:8px; cursor:pointer; box-shadow:0 5px 15px rgba(0,0,0,0.2); transition:0.3s; z-index:100;}
+.backBtn:hover { background:#45c85d;}
+</style>
+</head>
+<body>
+
+<div class="notification" id="notif"></div>
+
+<header>
+  <img src="ebc.png" alt="Elite Business Club Logo">
+  <h1>Elite Business Club - Admin Dashboard</h1>
+</header>
+
+<button class="backBtn" onclick="location.href='index.html'">Back</button>
+
+<div class="container" id="dashboard"></div>
+
+<!-- Floating Menu Button -->
+<div id="menuBtn">
+  <div></div><div></div><div></div><div></div>
+</div>
+<div id="floatingMenu">
+  <h3>Quick Access</h3>
+</div>
+
+<script>
+// Admin password prompt
+let password = prompt('Enter admin password:');
+if(password !== 'elite2025'){ alert('Incorrect password!'); document.body.innerHTML = '<h1 style="text-align:center;margin-top:50px;">Access Denied</h1>'; throw new Error('Wrong password'); }
+
+// Data
+const members = [
+  {name:'JOYCE', password:'jojo123', contributions:[{amount:100000,date:'4/23/2025'},{amount:10000,date:'5/27/2025'},{amount:20000,date:'7/5/2025'}]},
+  {name:'ANGEL', password:'angel123', contributions:[{amount:20000,date:'09/13/2025'},{amount:100000,date:'4/10/2025'},{amount:50000,date:'6/18/2025'},{amount:30000,date:'7/5/2025'},{amount:20000,date:'7/6/2025'}]},
+  {name:'MASTULAH', password:'mastulah123', contributions:[{amount:130000,date:'4/10/2025'},{amount:20000,date:'60/02/25'},{amount:30000,date:'6/25/2025'},{amount:10000,date:'6/26/2025'},{amount:10000,date:'7/5/2025'},{amount:30000,date:'7/31/2025'}]},
+  {name:'TENDO', password:'tendo123', contributions:[{amount:10000,date:'5/26/2025'},{amount:5000,date:'7/3/2025'},{amount:15000,date:'7/3/2025'}]},
+  {name:'ROSE', password:'rose123', contributions:[{amount:50000,date:'15/07/2025'}]},
+  {name:'MAYANJA', password:'vix6ix123', contributions:[{amount:30000,date:'5/9/2025'},{amount:50000,date:'6/7/2025'},{amount:10000,date:'6/12/2025'},{amount:10000,date:'6/10/2025'},{amount:10000,date:'7/3/2025'},{amount:2500,date:'7/10/2025'}]},
+  {name:'KABANDA', password:'press123', contributions:[{amount:10000,date:'5/2/2025'},{amount:9000,date:'7/1/2025'},{amount:11000,date:'7/6/2025'},{amount:2500,date:'7/10/2025'},{amount:10000,date:'6/7/2025'},{amount:10000,date:'10/4/2025'},{amount:15000,date:'For sweet P'}]},
+  {name:'CHOOSEN', password:'risen123', contributions:[{amount:50000,date:'4/30/2025'},{amount:30000,date:'5/21/2025'},{amount:20000,date:'6/26/2025'}]},
+  {name:'ELIAB', password:'eliab123', contributions:[{amount:100000,date:'4/20/2025'},{amount:20000,date:'5/29/2025'},{amount:10000,date:'3/2/2025'},{amount:20000,date:'6/26/2025'},{amount:10000,date:'7/7/2025'}]}
+];
+
+const expenditures = [
+  {item:'Feeds', amount:250000}, {item:'Purchase of pig', amount:385000}, {item:'Fertilization', amount:50000},
+  {item:'Construction of sty', amount:22500}, {item:'Lost Centenary bank ACT', amount:20000},
+  {item:'Opening of Equity bank', amount:15500}, {item:'First site visit', amount:10000}, {item:'Slashing', amount:20000},
+  {item:'Sweet potato farming', amount:65000}, {item:'Spraying and buying of chems', amount:20000}, {item:'Sweet potatoes (Ebikata)', amount:30000}
+];
+
+const deductions = [
+  {name:'ROSE', amount:30000, reason:'Missed project outreach', date:'7/5/2025'},
+  {name:'CHOOSEN', amount:30000, reason:'Missed project outreach', date:'7/5/2025'},
+  {name:'MASTULAH', amount:15000, reason:'Missed outreach', date:'7/5/2025'}
+];
+
+function showNotification(message){
+  const notif=document.getElementById('notif');
+  notif.textContent=message;
+  notif.style.display='block';
+  setTimeout(()=>{notif.style.display='none';},3000);
+}
+
+function calculateTotals(){
+  members.forEach(m=>{
+    let totalContrib=m.contributions.reduce((a,b)=>a+b.amount,0);
+    let totalDeduct=deductions.filter(d=>d.name===m.name).reduce((a,b)=>a+b.amount,0);
+    m.total=totalContrib - totalDeduct;
+  });
+  const membersTotal=members.reduce((a,b)=>a+b.total,0);
+  const deductionsTotal=deductions.reduce((a,b)=>a+b.amount,0);
+  const expendituresTotal=expenditures.reduce((a,b)=>a+b.amount,0);
+  const otherFunds=deductionsTotal;
+  const grandTotal=membersTotal + otherFunds - expendituresTotal;
+  return {membersTotal, deductionsTotal, expendituresTotal, otherFunds, grandTotal};
+}
+
+function createDashboard(){
+  const dash=document.getElementById('dashboard');
+  dash.innerHTML='';
+  const totals=calculateTotals();
+
+  // Member Cards
+  members.forEach((m,index)=>{
+    const card=document.createElement('div'); card.className='card'; card.id='member'+index;
+    let contribList=''; m.contributions.forEach(c=>{contribList+=`<tr><td>${c.date}</td><td>UGX ${c.amount.toLocaleString()}</td></tr>`});
+    let dedList=deductions.filter(d=>d.name===m.name).map(d=>`<tr><td>${d.date}</td><td>UGX ${d.amount.toLocaleString()}</td><td>${d.reason}</td></tr>`).join('');
+    card.innerHTML=`<h2>${m.name}</h2>
+      <p>Total: UGX ${m.total.toLocaleString()}</p>
+      <p>Password: <span id='pass${index}'>•••••••</span> <button onclick='togglePassword(${index})'>Show/Hide</button></p>
+      <table><tr><th>Date</th><th>Contribution</th></tr>${contribList}</table>
+      ${dedList? `<table><tr><th>Date</th><th>Deduction</th><th>Reason</th></tr>${dedList}</table>`:''}`;
+    dash.appendChild(card);
+  });
+
+  // Expenditures Card
+  const expCard=document.createElement('div'); expCard.className='card'; expCard.id='expenditures';
+  let expList=''; expenditures.forEach(e=>{expList+=`<tr><td>${e.item}</td><td>UGX ${e.amount.toLocaleString()}</td></tr>`});
+  expCard.innerHTML=`<h2>Expenditures</h2>
+    <table><tr><th>Item</th><th>Amount</th></tr>${expList}</table>
+    <p>Total Spent: UGX ${totals.expendituresTotal.toLocaleString()}</p>`;
+  dash.appendChild(expCard);
+
+  // Other Funds Card
+  const otherCard=document.createElement('div'); otherCard.className='card'; otherCard.id='otherFunds';
+  otherCard.innerHTML=`<h2>Other Funds (Deductions)</h2><p>UGX ${totals.otherFunds.toLocaleString()}</p>`;
+  dash.appendChild(otherCard);
+
+  // Profit Sharing Card
+  const profitCard=document.createElement('div'); profitCard.className='card'; profitCard.id='profitCard';
+  profitCard.innerHTML=`<h2>Profit Sharing</h2>
+    <input type='number' id='profitInput' placeholder='Enter total profit earned'>
+    <button onclick='calculateProfit()'>Calculate Profit Share</button>
+    <div id='profitResult'></div>`;
+  dash.appendChild(profitCard);
+
+  // Grand Total Card
+  const grandCard=document.createElement('div'); grandCard.className='card'; grandCard.id='grandTotal';
+  grandCard.innerHTML=`<h2>Grand Total</h2><p>UGX ${totals.grandTotal.toLocaleString()}</p>`;
+  dash.appendChild(grandCard);
+
+  showNotification('Dashboard Loaded');
+
+  // Animate cards
+  const cards=document.querySelectorAll('.card');
+  cards.forEach((c,i)=>{ setTimeout(()=>{c.classList.add('show');}, i*150); });
+}
+
+function togglePassword(index){
+  const span=document.getElementById('pass'+index);
+  span.textContent=span.textContent.includes('•')? members[index].password:'•••••••';
+}
+
+function calculateProfit(){
+  const profit=Number(document.getElementById('profitInput').value);
+  if(isNaN(profit)||profit<=0){alert('Enter valid profit'); return;}
+  const totals=calculateTotals();
+  let resultHTML='';
+  members.forEach(m=>{
+    const share=((m.total/totals.membersTotal)*profit).toFixed(2);
+    resultHTML+=`<p>${m.name}: UGX ${parseFloat(share).toLocaleString()}</p>`;
+  });
+  document.getElementById('profitResult').innerHTML=resultHTML;
+}
+
+// Floating Menu toggle
+const menuBtn=document.getElementById('menuBtn');
+const floatingMenu=document.getElementById('floatingMenu');
+let menuOpen=false;
+menuBtn.addEventListener('click', ()=>{
+  menuOpen=!menuOpen;
+  floatingMenu.style.display=menuOpen?'flex':'none';
+});
+
+function buildFloatingMenu(){
+  floatingMenu.innerHTML='<h3>Quick Access</h3>';
+  members.forEach((m,index)=>{
+    const btn=document.createElement('button');
+    btn.textContent=m.name;
+    btn.onclick=()=>{document.getElementById('member'+index).scrollIntoView({behavior:'smooth'}); floatingMenu.style.display='none'; menuOpen=false;};
+    floatingMenu.appendChild(btn);
+  });
+  const specialCards=[
+    {id:'expenditures', label:'Expenditures'},
+    {id:'otherFunds', label:'Other Funds'},
+    {id:'profitCard', label:'Profit Sharing'},
+    {id:'grandTotal', label:'Grand Total'}
+  ];
+  specialCards.forEach(sc=>{
+    const btn=document.createElement('button');
+    btn.textContent=sc.label;
+    btn.style.background='#28a745'; btn.style.color='#fff';
+    btn.onmouseover=()=>btn.style.background='#45c85d';
+    btn.onmouseleave=()=>btn.style.background='#28a745';
+    btn.onclick=()=>{document.getElementById(sc.id).scrollIntoView({behavior:'smooth'}); floatingMenu.style.display='none'; menuOpen=false;};
+    floatingMenu.appendChild(btn);
+  });
+}
+
+createDashboard();
+buildFloatingMenu();
+</script>
+
+</body>
+</html>

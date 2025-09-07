@@ -1,130 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Elite Busines Club</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-      padding: 0;
-      margin: 0;
-    }
-    body {
-      font-family: 'Outfit', sans-serif;
-      background: #ced7db;
-      color: #000000;
-      padding: 1rem;
-    }
-    header {
-      background: #c00;
-      color: white;
-      padding: 2rem;
-      text-align: center;
-      border-radius: 10px;
-    }
-    .clubs {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-    .club-card {
-      background: #fff;
-      border: 2px solid #c00;
-      border-radius: 10px;
-      padding: 1rem;
-      box-shadow: 0 4px 10px rgba(241, 5, 5, 0.959);
-      transition: transform 0.3s;
-      cursor: pointer;
-      text-decoration: none;
-      color: inherit;
-    }
-    .club-card:hover {
-      transform: scale(1.03);
-    }
-    h2 {
-      color: #c00;
-      margin-bottom: 1rem;
-    }
-    .announcement {
-      background: #ffecec;
-      padding: 1rem;
-      margin-top: 2rem;
-      border-left: 4px solid #c00;
-      border-radius: 8px;
-    }
-    .announcement p {
-      margin-bottom: 0.5rem;
-    }
-    .back-button {
-      display: inline-block;
-      margin: 1rem 0;
-      padding: 0.5rem 1rem;
-      background: rgba(0, 14, 204, 0.286);
-      color: rgb(0, 0, 0);
-      text-decoration: none;
-      border-radius: 10px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elite Club Member Dashboard</title>
+<style>
+:root{
+  --bg-dark:#0b3d91;
+  --bg-light:#f5f5f5;
+  --text-dark:#fff;
+  --text-light:#000;
+  --card-dark:rgba(0,0,0,0.75);
+  --card-light:rgba(255,255,255,0.95);
+  --highlight:#f7b733;
+}
+body{font-family:Arial,sans-serif;margin:0;padding:0;background:var(--bg-dark);color:var(--text-dark);transition:0.3s;}
+body.light{background:var(--bg-light);color:var(--text-light);}
+.container{background:var(--card-dark);padding:20px;border-radius:12px;width:95%;max-width:800px;margin:20px auto;transition:0.3s;}
+body.light .container{background:var(--card-light);}
+input,button{width:100%;padding:10px;margin:5px 0;border:none;border-radius:6px;box-sizing:border-box;}
+button{background:var(--highlight);color:black;font-weight:bold;cursor:pointer;transition:0.3s;}
+button:hover{background:#ffcc00;}
+table{width:100%;border-collapse:collapse;margin-top:15px;font-size:14px;}
+th,td{border:1px solid #fff;padding:8px;text-align:center;}
+body.light th,body.light td{border:1px solid #000;}
+.msg{margin-top:10px;color:#ffcc00;}
+.announcement, .debt{background:rgba(255,255,255,0.1);padding:10px;margin:10px 0;border-radius:8px;}
+body.light .announcement,body.light .debt{background:rgba(0,0,0,0.05);}
+</style>
 </head>
-<body>
-  <a class="back-button" href="index.html">← Back</a>
-  <header>
-    <h1>Elite Business Club</h1>
-    <p>Tap your account to login</p>
-  </header>
+<body class="dark">
 
-  <div class="clubs">
-    <a class="club-card" href="Eliab.html" data-aos="fade-up">
-      <h3>WATANTE ELIAB</h3>
-      <p>Mr.President</p>
-      
-    </a>
-    <a class="club-card" href="Angel.html" data-aos="fade-up">
-      <h3>Nakimuli Tracy</h3>
-      <p>Vice President</p>
-      
-    </a>
-    <a class="club-card" href="Joyce.html" data-aos="fade-up">
-      <h3>Namutebi Joyce</h3>
-      <p>Secretary</p>
-      
-    </a>
-    <a class="club-card" href="Kabanda.html" data-aos="fade-up">
-      <h3>Kabanda Stephen</h3>
-      <p>Mobilizer</p>
-    </a>
-    <a class="club-card" href="Tendo.html" data-aos="fade-up">
-        <h3>Tendo Job Prosper</h3>
-      </a>
-      <a class="club-card" href="Mastulah.html" data-aos="fade-up">
-        <h3>Ndagire Mastulah</h3>
-      </a>
-      <a class="club-card" href="Leith.html" data-aos="fade-up">
-        <h3>Mayanja Leith</h3>
-      </a>
-      <a class="club-card" href="Choosen.html" data-aos="fade-up">
-        <h3>Risen Choosen</h3>
-      </a>
-      <a class="club-card" href="Rose.html" data-aos="fade-up">
-        <h3>Nansubuga Rose</h3>
-      </a>
-      
-  </div>
+<div class="container" id="loginSection">
+  <h2>Member Login</h2>
+  <input type="email" id="email" placeholder="Email">
+  <input type="password" id="password" placeholder="Password">
+  <button id="loginBtn">Login</button>
+  <p class="msg" id="loginMsg"></p>
+</div>
 
-  <div class="announcement" data-aos="fade-up">
-    <h2>📢 Club Announcements</h2>
-    <p>Piggary Project ongoing</p>
-    <p>Sweet Potato project ongoing</p>
-    
-  </div>
+<div class="container" id="dashboard" style="display:none;">
+  <button onclick="toggleTheme()">Toggle Dark/Light Theme</button>
+  <h2>Welcome, <span id="userEmail"></span></h2>
 
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>
-    AOS.init();
-  </script>
+  <h3>Your Savings</h3>
+  <table>
+    <thead><tr><th>Date</th><th>Amount</th></tr></thead>
+    <tbody id="savingsTable"></tbody>
+    <tfoot><tr><th>Total Savings</th><th id="totalSavings">0</th></tr></tfoot>
+  </table>
+
+  <h3>Cash Balance</h3>
+  <p id="balance">0</p>
+
+  <h3>Announcements</h3>
+  <div id="announcementsList"></div>
+
+  <h3>Debt Notifications</h3>
+  <div id="debtList"></div>
+
+  <button onclick="logout()">Logout</button>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
+  import { getFirestore, collection, doc, onSnapshot, query, where } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB8y4y7bMIteIT029Vzna3rgzcDmSjUAwk",
+    authDomain: "elitesign-in.firebaseapp.com",
+    projectId: "elitesign-in",
+    storageBucket: "elitesign-in.appspot.com",
+    messagingSenderId: "404062937521",
+    appId: "1:404062937521:web:4460e2ccc011dd6afa5d90"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // Theme toggle
+  window.toggleTheme = () => { document.body.classList.toggle("dark"); document.body.classList.toggle("light"); };
+
+  // DOM Elements
+  const loginSection = document.getElementById("loginSection");
+  const dashboard = document.getElementById("dashboard");
+  const loginBtn = document.getElementById("loginBtn");
+  const loginMsg = document.getElementById("loginMsg");
+  const userEmailSpan = document.getElementById("userEmail");
+  const savingsTable = document.getElementById("savingsTable");
+  const totalSavingsEl = document.getElementById("totalSavings");
+  const balanceEl = document.getElementById("balance");
+  const announcementsList = document.getElementById("announcementsList");
+  const debtList = document.getElementById("debtList");
+
+  let currentUser = null;
+
+  loginBtn.addEventListener("click", () => {
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    signInWithEmailAndPassword(auth,email,password)
+      .then(userCredential => { loginMsg.innerText=""; })
+      .catch(err => { loginMsg.innerText = `❌ ${err.message}`; });
+  });
+
+  onAuthStateChanged(auth, user => {
+    if(user){
+      currentUser = user;
+      loginSection.style.display = "none";
+      dashboard.style.display = "block";
+      userEmailSpan.innerText = user.email;
+      loadData();
+    } else {
+      currentUser = null;
+      loginSection.style.display = "block";
+      dashboard.style.display = "none";
+    }
+  });
+
+  function logout(){ signOut(auth); }
+
+  function loadData(){
+    const uid = currentUser.uid;
+
+    // Real-time Savings
+    const savingsRef = collection(db,"savings");
+    const savingsQuery = query(savingsRef, where("memberId","==",uid));
+    onSnapshot(savingsQuery, snapshot=>{
+      let total = 0;
+      savingsTable.innerHTML="";
+      snapshot.forEach(doc=>{
+        const s = doc.data();
+        savingsTable.innerHTML += `<tr><td>${s.date}</td><td>${s.amount}</td></tr>`;
+        total += parseFloat(s.amount);
+      });
+      totalSavingsEl.innerText = total;
+      // Cash balance (subtract all outflows)
+      const outflowsRef = collection(db,"outflows");
+      onSnapshot(outflowsRef, outSnap=>{
+        let outTotal = 0;
+        outSnap.forEach(o=>{ outTotal += parseFloat(o.data().amount); });
+        balanceEl.innerText = total - outTotal;
+      });
+    });
+
+    // Real-time Announcements
+    onSnapshot(collection(db,"announcements"), snapshot=>{
+      announcementsList.innerHTML="";
+      snapshot.forEach(doc=>{
+        const a = doc.data();
+        announcementsList.innerHTML += `<div class="announcement">${a.date}: ${a.text}</div>`;
+      });
+    });
+
+    // Real-time Debts
+    onSnapshot(collection(db,"debts"), snapshot=>{
+      debtList.innerHTML="";
+      snapshot.forEach(doc=>{
+        const d = doc.data();
+        if(d.toAll || (d.recipients && d.recipients.includes(uid))){
+          debtList.innerHTML += `<div class="debt">💳 Amount: ${d.amount}<br>📝 Reason: ${d.reason}<br>📅 Date: ${d.date}</div>`;
+        }
+      });
+    });
+  }
+
+</script>
 </body>
 </html>

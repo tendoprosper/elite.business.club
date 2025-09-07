@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elite Busines Club</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+    }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: #ced7db;
+      color: #000000;
+      padding: 1rem;
+    }
+    header {
+      background: #c00;
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      border-radius: 10px;
+    }
+    .clubs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .club-card {
+      background: #fff;
+      border: 2px solid #c00;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 4px 10px rgba(241, 5, 5, 0.959);
+      transition: transform 0.3s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+    .club-card:hover {
+      transform: scale(1.03);
+    }
+    h2 {
+      color: #c00;
+      margin-bottom: 1rem;
+    }
+    .announcement {
+      background: #ffecec;
+      padding: 1rem;
+      margin-top: 2rem;
+      border-left: 4px solid #c00;
+      border-radius: 8px;
+    }
+    .announcement p {
+      margin-bottom: 0.5rem;
+    }
+    .back-button {
+      display: inline-block;
+      margin: 1rem 0;
+      padding: 0.5rem 1rem;
+      background: rgba(0, 14, 204, 0.286);
+      color: rgb(0, 0, 0);
+      text-decoration: none;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <a class="back-button" href="index.html">← Back</a>
+  <header>
+    <h1>Elite Business Club</h1>
+    <p>Tap your account to login</p>
+  </header>
+
+  <div class="clubs">
+    <a class="club-card" href="Eliab.html" data-aos="fade-up">
+      <h3>WATANTE ELIAB</h3>
+      <p>Mr.President</p>
+      
+    </a>
+    <a class="club-card" href="Angel.html" data-aos="fade-up">
+      <h3>Nakimuli Tracy</h3>
+      <p>Vice President</p>
+      
+    </a>
+    <a class="club-card" href="Joyce.html" data-aos="fade-up">
+      <h3>Namutebi Joyce</h3>
+      <p>Secretary</p>
+      
+    </a>
+    <a class="club-card" href="Kabanda.html" data-aos="fade-up">
+      <h3>Kabanda Stephen</h3>
+      <p>Mobilizer</p>
+    </a>
+    <a class="club-card" href="Tendo.html" data-aos="fade-up">
+        <h3>Tendo Job Prosper</h3>
+      </a>
+      <a class="club-card" href="Mastulah.html" data-aos="fade-up">
+        <h3>Ndagire Mastulah</h3>
+      </a>
+      <a class="club-card" href="Leith.html" data-aos="fade-up">
+        <h3>Mayanja Leith</h3>
+      </a>
+      <a class="club-card" href="Choosen.html" data-aos="fade-up">
+        <h3>Risen Choosen</h3>
+      </a>
+      <a class="club-card" href="Rose.html" data-aos="fade-up">
+        <h3>Nansubuga Rose</h3>
+      </a>
+      
+  </div>
+
+  <div class="announcement" data-aos="fade-up">
+    <h2>📢 Club Announcements</h2>
+    <p>Piggary Project ongoing</p>
+    <p>Sweet Potato project ongoing</p>
+    
+  </div>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
+</body>
+</html>
