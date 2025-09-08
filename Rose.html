@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Risen Choosen# Elite</title>
+  <title>Nansubuga Rose# Elite</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <style>
@@ -11,9 +11,9 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      font-family: 'Outfit', sans-serif;
     }
     body {
-      font-family: 'Outfit', sans-serif;
       background: #fff;
       color: #111;
       transition: background 0.3s, color 0.3s;
@@ -23,15 +23,105 @@
       background: #111;
       color: #eee;
     }
+
+    /* PASSWORD SCREEN STYLING */
+    #password-screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #ff4b2b, #ff416c);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+    #password-screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #password-box {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      max-width: 350px;
+      width: 90%;
+      animation: slideDown 0.8s ease forwards;
+    }
+    #password-box h2 {
+      margin-bottom: 1rem;
+      color: #c00;
+    }
+    #password-input {
+      width: 100%;
+      padding: 0.7rem;
+      margin: 1rem 0;
+      border: 2px solid #c00;
+      border-radius: 10px;
+      outline: none;
+      font-size: 1rem;
+      text-align: center;
+    }
+    #password-btn {
+      background: #c00;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-weight: bold;
+    }
+    #password-btn:hover {
+      background: #900;
+    }
+    #error-msg {
+      color: red;
+      font-size: 0.9rem;
+      display: none;
+      margin-top: 0.5rem;
+    }
+    @keyframes slideDown {
+      0% { transform: translateY(-30px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    /* MAIN PAGE STYLES */
     header {
       background: #c00;
       color: white;
       padding: 2rem;
       text-align: center;
+      position: relative;
     }
     h2 {
       margin-bottom: 1rem;
       color: #c00;
+    }
+    .profile-container {
+      display: flex;
+      justify-content: center;
+      margin-top: -60px;
+      margin-bottom: 10px;
+    }
+    .profile-container img {
+      width: 150px;
+      height: 150px;
+      margin-top: 50px;
+      border-radius: 50%;
+      border: 4px solid white;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      background-color: #fff;
+      object-fit: cover;
+      animation: popIn 0.8s ease forwards;
+    }
+    @keyframes popIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
     }
     .card {
       background: white;
@@ -46,21 +136,6 @@
     body.dark-mode .card {
       background: #222;
     }
-    .toggle-mode {
-      position: fixed;
-      top: 1rem;
-      right: 1rem;
-      background: #c00;
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: background 0.3s;
-      z-index: 1000;
-    }
-    .toggle-mode:hover {
-      background: #900;
-    }
     .live-scoreboard {
       font-weight: bold;
       font-size: 1.1rem;
@@ -71,39 +146,26 @@
       from { opacity: 0.6; }
       to { opacity: 1; }
     }
-    .features, .gallery, .polls, .highlight-videos, .leaderboard, .carousel, .schedule, .fan-wall, .comparison {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
+    table {
+      width: 100%;
+      border-collapse: collapse;
       margin-top: 1rem;
     }
-    .feature, .gallery-card, .poll, .video-card, .leaderbar, .carousel-card, .schedule-card, .fan-card, .compare-card {
-      background: #f5f5f5;
-      padding: 1rem;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      transition: transform 0.3s;
+    th, td {
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      text-align: left;
     }
-    body.dark-mode .feature,
-    body.dark-mode .gallery-card,
-    body.dark-mode .poll,
-    body.dark-mode .video-card,
-    body.dark-mode .leaderbar,
-    body.dark-mode .carousel-card,
-    body.dark-mode .schedule-card,
-    body.dark-mode .fan-card,
-    body.dark-mode .compare-card {
-      background: #333;
+    th {
+      background-color: #c00;
+      color: white;
+    }
+    .player-table th, .player-table td {
+      text-align: center;
     }
     @keyframes fadeInUp {
-      0% {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
     .back-button {
       position: fixed;
@@ -122,94 +184,30 @@
     .back-button:hover {
       background: #900;
     }
-
-    /* PASSWORD OVERLAY */
-    #passwordOverlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #c00, #900);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      z-index: 2000;
-    }
-    #passwordBox {
-      background: #fff;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 5px 25px rgba(0,0,0,0.3);
-      text-align: center;
-      width: 90%;
-      max-width: 400px;
-      animation: fadeIn 1s ease forwards;
-    }
-    #passwordBox h2 {
-      margin-bottom: 1rem;
-      color: #c00;
-    }
-    #passwordInput {
-      padding: 0.8rem;
-      width: 100%;
-      margin-top: 1rem;
-      margin-bottom: 1rem;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      outline: none;
-      font-size: 1rem;
-    }
-    #submitPassword {
-      background: #c00;
-      color: white;
-      padding: 0.8rem 1.5rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: background 0.3s;
-    }
-    #submitPassword:hover {
-      background: #900;
-    }
-    #errorMsg {
-      color: red;
-      margin-top: 0.5rem;
-      font-size: 0.9rem;
-      display: none;
-    }
-    @keyframes fadeIn {
-      0% {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
   </style>
 </head>
 <body>
-  
-  <!-- PASSWORD OVERLAY -->
-  <div id="passwordOverlay">
-    <div id="passwordBox">
-      <h2>🔒 Enter Password</h2>
-      <input type="password" id="passwordInput" placeholder="Enter Password" />
-      <button id="submitPassword">Unlock</button>
-      <div id="errorMsg">Incorrect password. Try again.</div>
+  <!-- PASSWORD SCREEN -->
+  <div id="password-screen">
+    <div id="password-box">
+      <h2>Enter Password</h2>
+      <input type="password" id="password-input" placeholder="••••••">
+      <button id="password-btn">Unlock</button>
+      <p id="error-msg">Incorrect password. Try again!</p>
     </div>
   </div>
 
+  <!-- MAIN CONTENT -->
   <a class="back-button" href="Accounts.html">←</a>
-  
   <header>
-    <h1>Welcome Risen Choosen</h1>
+    <h1>Welcome Nansubuga Rose</h1>
     <p>Elite Business Club</p>
   </header>
+
+  <!-- PROFILE IMAGE -->
+  <div class="profile-container" data-aos="fade-down">
+    <img src="rose.jpg" alt="Nansubuga Rose">
+  </div>
 
   <div class="card" data-aos="fade-up">
     <h2>Notification</h2>
@@ -219,12 +217,26 @@
   <div class="card" data-aos="fade-up">
     <h2>Announcements</h2>
     <ul>
-      <li>We have a piggary project on going</li>
+      <li>We have a piggery project ongoing</li>
       <li>More money is needed</li>
-      <li>Sweet potato project is on going</li>
+      <li>Sweet potato project is ongoing</li>
     </ul>
   </div>
 
+  <div class="card" data-aos="fade-up">
+    <h2>Your Frist Term   Savings</h2>
+    <table class="player-table">
+      <tr><th>Amount</th><th>Date</th>
+      <tr><td>50000</td><td>4/30/2025</td>
+      <tr><td>30000</td><td>5/21/2025</td>
+      <tr><td>20000</td><td>6/26/2025</td>
+        <tr><td>Total</td><td>100,000</td> 
+    <tr><td>Deduction</td><td>30000</td>   
+    
+    </table>
+  </div>
+  	
+  
   <div class="card" data-aos="fade-up">
     <h2>Your First Term Savings</h2>
     <table class="player-table">
@@ -234,7 +246,6 @@
       <tr><td><h2>G.Total</h2></td><td>20,000</td>
     </table>
   </div>
-
   <div class="card" data-aos="fade-up">
     <h2>Your Second Term Savings</h2>
     <table class="player-table">
@@ -242,19 +253,18 @@
       <tr><td>xxxxx</td><td>xxxxx</td></tr>
     </table>
   </div>
-
   <div class="card" data-aos="fade-up">
-    <h2>Your notification and debts will appear here</h2>
+    <h2>Your notifications and debts will appear here</h2>
     <div class="leaderboard">
-      <div class="leaderbar">You missed a project site visit Hence UGX30,000</div>
+      <div class="leaderbar">You missed a site visite hence a deduction of 15k</div>
     </div>
   </div>
 
   <div class="card" data-aos="fade-up">
     <h2>Club News</h2>
     <ul>
-      <li>Piggary Project on going</li>
-      <li>Sweet potato project on going</li>
+      <li>Piggery Project ongoing</li>
+      <li>Sweet potato project ongoing</li>
       <li>Wifi Project on the way</li>
     </ul>
   </div>
@@ -270,16 +280,17 @@
   <script>
     AOS.init();
 
-    // PASSWORD PROTECTION
-    const correctPassword = "rose123";
-    const passwordOverlay = document.getElementById("passwordOverlay");
-    const submitBtn = document.getElementById("submitPassword");
-    const passwordInput = document.getElementById("passwordInput");
-    const errorMsg = document.getElementById("errorMsg");
+    // PASSWORD SYSTEM
+    const correctPassword = "rose123"; // Change password here
+    const passwordScreen = document.getElementById("password-screen");
+    const passwordInput = document.getElementById("password-input");
+    const passwordBtn = document.getElementById("password-btn");
+    const errorMsg = document.getElementById("error-msg");
 
-    submitBtn.addEventListener("click", () => {
+    passwordBtn.addEventListener("click", () => {
       if (passwordInput.value === correctPassword) {
-        passwordOverlay.style.display = "none";
+        passwordScreen.classList.add("hidden");
+        setTimeout(() => passwordScreen.style.display = "none", 500);
       } else {
         errorMsg.style.display = "block";
         passwordInput.value = "";
@@ -287,7 +298,7 @@
     });
 
     passwordInput.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") submitBtn.click();
+      if (e.key === "Enter") passwordBtn.click();
     });
   </script>
 </body>
