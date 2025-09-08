@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Elite Busines Club</title>
+  <title>Elite Business Club</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <style>
@@ -24,6 +24,7 @@
       padding: 2rem;
       text-align: center;
       border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     }
     .clubs {
       display: grid;
@@ -34,16 +35,43 @@
     .club-card {
       background: #fff;
       border: 2px solid #c00;
-      border-radius: 10px;
+      border-radius: 15px;
       padding: 1rem;
-      box-shadow: 0 4px 10px rgba(241, 5, 5, 0.959);
-      transition: transform 0.3s;
+      box-shadow: 0 4px 15px rgba(241, 5, 5, 0.5);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
       cursor: pointer;
       text-decoration: none;
       color: inherit;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     .club-card:hover {
-      transform: scale(1.03);
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(241, 5, 5, 0.7);
+    }
+    .profile-img {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #c00;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease;
+    }
+    .club-card:hover .profile-img {
+      transform: scale(1.1);
+    }
+    h3 {
+      margin-bottom: 0.3rem;
+      color: #c00;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+    p {
+      margin-bottom: 0.5rem;
+      text-align: center;
     }
     h2 {
       color: #c00;
@@ -55,6 +83,7 @@
       margin-top: 2rem;
       border-left: 4px solid #c00;
       border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
     .announcement p {
       margin-bottom: 0.5rem;
@@ -62,11 +91,18 @@
     .back-button {
       display: inline-block;
       margin: 1rem 0;
-      padding: 0.5rem 1rem;
-      background: rgba(0, 14, 204, 0.286);
-      color: rgb(0, 0, 0);
+      padding: 0.6rem 1.2rem;
+      background: rgba(0, 14, 204, 0.3);
+      color: #000;
       text-decoration: none;
       border-radius: 10px;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+    .back-button:hover {
+      background: rgba(0, 14, 204, 0.5);
+      transform: scale(1.05);
     }
   </style>
 </head>
@@ -79,47 +115,59 @@
 
   <div class="clubs">
     <a class="club-card" href="Eliab.html" data-aos="fade-up">
-      <h3>WATANTE ELIAB</h3>
-      <p>Mr.President</p>
-      
+      <img src="eliab.jpg" alt="Eliab" class="profile-img">
+      <h3>Watante Eliab</h3>
+      <p>Mr. President</p>
     </a>
+
     <a class="club-card" href="Angel.html" data-aos="fade-up">
+      <img src="angel.jpg" alt="Angel" class="profile-img">
       <h3>Nakimuli Tracy</h3>
       <p>Vice President</p>
-      
     </a>
+
     <a class="club-card" href="Joyce.html" data-aos="fade-up">
+      <img src="joyce.jpg" alt="Joyce" class="profile-img">
       <h3>Namutebi Joyce</h3>
       <p>Secretary</p>
-      
     </a>
+
     <a class="club-card" href="Kabanda.html" data-aos="fade-up">
+      <img src="kabanda.jpg" alt="Kabanda" class="profile-img">
       <h3>Kabanda Stephen</h3>
       <p>Mobilizer</p>
     </a>
+
     <a class="club-card" href="Tendo.html" data-aos="fade-up">
-        <h3>Tendo Job Prosper</h3>
-      </a>
-      <a class="club-card" href="Mastulah.html" data-aos="fade-up">
-        <h3>Ndagire Mastulah</h3>
-      </a>
-      <a class="club-card" href="Leith.html" data-aos="fade-up">
-        <h3>Mayanja Leith</h3>
-      </a>
-      <a class="club-card" href="Choosen.html" data-aos="fade-up">
-        <h3>Risen Choosen</h3>
-      </a>
-      <a class="club-card" href="Rose.html" data-aos="fade-up">
-        <h3>Nansubuga Rose</h3>
-      </a>
-      
+      <img src="pro.jpg" alt="Tendo" class="profile-img">
+      <h3>Tendo Job Prosper</h3>
+    </a>
+
+    <a class="club-card" href="Mastulah.html" data-aos="fade-up">
+      <img src="mastulah.jpg" alt="Mastulah" class="profile-img">
+      <h3>Ndagire Mastulah</h3>
+    </a>
+
+    <a class="club-card" href="Leith.html" data-aos="fade-up">
+      <img src="leith1.jpg" alt="Mayanja Leith" class="profile-img">
+      <h3>Mayanja Leith</h3>
+    </a>
+
+    <a class="club-card" href="Choosen.html" data-aos="fade-up">
+      <img src="choosen.jpg" alt="Choosen" class="profile-img">
+      <h3>Risen Choosen</h3>
+    </a>
+
+    <a class="club-card" href="Rose.html" data-aos="fade-up">
+      <img src="rose.jpg" alt="Rose" class="profile-img">
+      <h3>Nansubuga Rose</h3>
+    </a>
   </div>
 
   <div class="announcement" data-aos="fade-up">
     <h2>📢 Club Announcements</h2>
-    <p>Piggary Project ongoing</p>
-    <p>Sweet Potato project ongoing</p>
-    
+    <p>Piggery Project ongoing</p>
+    <p>Sweet Potato Project ongoing</p>
   </div>
 
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
