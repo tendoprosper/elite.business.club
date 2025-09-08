@@ -96,10 +96,32 @@
       color: white;
       padding: 2rem;
       text-align: center;
+      position: relative;
     }
     h2 {
       margin-bottom: 1rem;
       color: #c00;
+    }
+    .profile-container {
+      display: flex;
+      justify-content: center;
+      margin-top: -60px;
+      margin-bottom: 10px;
+    }
+    .profile-container img {
+      width: 150px;
+      height: 150px;
+      margin-top: 50px;
+      border-radius: 50%;
+      border: 4px solid white;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      background-color: #fff;
+      object-fit: cover;
+      animation: popIn 0.8s ease forwards;
+    }
+    @keyframes popIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
     }
     .card {
       background: white;
@@ -182,9 +204,14 @@
     <p>Elite Business Club</p>
   </header>
 
+  <!-- PROFILE IMAGE -->
+  <div class="profile-container" data-aos="fade-down">
+    <img src="angel.jpg" alt="Nakimuli Tracy">
+  </div>
+
   <div class="card" data-aos="fade-up">
     <h2>Notification</h2>
-    <div class="live-scoreboard">Thank you for your assistant investing.</div>
+    <div class="live-scoreboard">Thank you for your passistant investing.</div>
   </div>
 
   <div class="card" data-aos="fade-up">
@@ -204,7 +231,6 @@
       <tr><td>50000</td><td>6/18/2025</td></tr>
       <tr><td>30000</td><td>7/5/2025</td></tr>
       <tr><td>20000</td><td>7/6/2025</td></tr>
-      
     </table>
   </div>
 
@@ -267,4 +293,3 @@
   </script>
 </body>
 </html>
-
