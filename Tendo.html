@@ -96,10 +96,32 @@
       color: white;
       padding: 2rem;
       text-align: center;
+      position: relative;
     }
     h2 {
       margin-bottom: 1rem;
       color: #c00;
+    }
+    .profile-container {
+      display: flex;
+      justify-content: center;
+      margin-top: -60px;
+      margin-bottom: 10px;
+    }
+    .profile-container img {
+      width: 150px;
+      height: 150px;
+      margin-top: 50px;
+      border-radius: 50%;
+      border: 4px solid white;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      background-color: #fff;
+      object-fit: cover;
+      animation: popIn 0.8s ease forwards;
+    }
+    @keyframes popIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
     }
     .card {
       background: white;
@@ -182,9 +204,14 @@
     <p>Elite Business Club</p>
   </header>
 
+  <!-- PROFILE IMAGE -->
+  <div class="profile-container" data-aos="fade-down">
+    <img src="pro.jpg" alt="Tendo Prosper">
+  </div>
+
   <div class="card" data-aos="fade-up">
     <h2>Notification</h2>
-    <div class="live-scoreboard">Thank you for your assistant investing.</div>
+    <div class="live-scoreboard">Thank you for your passistant investing.</div>
   </div>
 
   <div class="card" data-aos="fade-up">
@@ -198,6 +225,7 @@
 
   <div class="card" data-aos="fade-up">
     <h2>Your Frist Term   Savings</h2>
+    <h2>Your Frist Term   Savings</h2>
     <table class="player-table">
       <tr><th>Amount(UGX)</th><th>Date</th>
       <tr><td>10000</td><td>5/26/2025</td>
@@ -206,15 +234,13 @@
         <tr><td><h2>G.Total</h2></td><td>30,000</td>
     </table>
   </div>
-  	
+
   <div class="card" data-aos="fade-up">
-    <h2>Your second term Savings</h2>
+    <h2>Your Second Term Savings</h2>
     <table class="player-table">
       <tr><th>Amount</th><th>Date</th></tr>
-      <tr><td>xxxxx</td><td>xxxxx</td></tr>
-      <!-- <tr><td>xxxx</td><td>xxxx</td></tr>
-      <tr><td>xxxx</td><td>xxxx</td></tr>
-      <tr><td>xxxx</td><td>xxxxx</td></tr> -->
+      <tr><td>xxxxx</td><td>xxxx</td></tr>
+     
     </table>
   </div>
 
